@@ -1,0 +1,5 @@
+provider: github
+private: true
+owner: SpaceDose
+repo: flyff-universe-browser
+token: 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

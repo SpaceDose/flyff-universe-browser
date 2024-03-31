@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import {type FC} from 'react';
-import {type Panel} from 'src/preload/types';
+import {type Panel} from '../../../../../preload/types';
 import {hoverPanelColors, panelColors} from '../panel-colors';
 
 type PanelSelect = {

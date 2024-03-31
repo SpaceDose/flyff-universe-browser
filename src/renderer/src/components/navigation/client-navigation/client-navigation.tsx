@@ -1,6 +1,6 @@
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {type FC} from 'react';
-import {type Client, type PanelSettings} from 'src/preload/types';
+import {type Client, type PanelSettings} from '../../../../../preload/types';
 import {ClientControl} from './client-control';
 
 type ClientNavigationProps = {

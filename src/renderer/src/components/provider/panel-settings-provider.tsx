@@ -5,7 +5,7 @@ import {
   useState,
   createContext,
 } from 'react';
-import {type PanelSettings} from 'src/preload/types';
+import {type PanelSettings} from '../../../../preload/types';
 
 type PanelSettingsProviderProps = {
   children: ReactNode;

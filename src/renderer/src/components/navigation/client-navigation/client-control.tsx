@@ -3,7 +3,8 @@ import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import clsx from 'clsx';
 import {type FC, useState} from 'react';
-import {type Client, type PanelSettings} from 'src/preload/types';
+
+import {type Client, type PanelSettings} from '../../../../../preload/types';
 import {panelColors} from '../panel-colors';
 import {PanelSelect} from './panel-select';
 

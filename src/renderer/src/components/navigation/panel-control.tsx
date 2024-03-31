@@ -2,7 +2,7 @@ import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
 import clsx from 'clsx';
 import {type FC} from 'react';
-import {type Panel} from 'src/preload/types';
+import {type Panel} from '../../../../preload/types';
 import {PanelSelect} from './client-navigation/panel-select';
 
 type UnlockPanelProps = {

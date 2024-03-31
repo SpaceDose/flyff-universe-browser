@@ -5,8 +5,7 @@ import {win} from '.';
 const {autoUpdater} = electronUpdater;
 
 export const update = () => {
-  autoUpdater.forceDevUpdateConfig = import.meta.env.DEV;
-  autoUpdater.checkForUpdates();
+  if (import.meta.env.PROD) autoUpdater.checkForUpdates();
 
   autoUpdater.on('update-downloaded', () => {
     win?.webContents.send('pushUpdateAvailable');

@@ -17,7 +17,6 @@ function createWindow(): void {
   });
 
   win = new BrowserWindow({
-    title: app.name,
     show: false,
     width,
     height,

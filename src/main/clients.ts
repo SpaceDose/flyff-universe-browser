@@ -1,20 +1,16 @@
-import {BrowserView, type IpcMainInvokeEvent, ipcMain, session} from 'electron';
+import {type IpcMainInvokeEvent, ipcMain, BrowserWindow} from 'electron';
 import {v4} from 'uuid';
 import {type Client} from '../preload/types';
 import {db} from './database';
 import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
-import {resizePanels} from './panels/resize';
-import {keyboardShortcuts} from './utils';
+import {createBrowserView} from './utils';
 import {win} from '.';
-
-const flyffUniverseURL =
-  import.meta.env.VITE_TEST_URL ?? 'https://universe.flyff.com/play';
 
 export const clients: Client[] = db.get('clients', []);
 
-const pushClientsUpdate = () => {
+export const pushClientsUpdate = () => {
   const clientsWithoutViews = clients.map((client) => {
-    const {view, ...clientWithoutView} = client;
+    const {view, window, ...clientWithoutView} = client;
     return clientWithoutView;
   });
 
@@ -24,64 +20,23 @@ const pushClientsUpdate = () => {
   pushPanelSettingsUpdate();
 };
 
-const createBrowserView: (id: string) => BrowserView = (id) => {
-  const s = session.fromPartition(`persist:client-${id}`);
-  const view = new BrowserView({
-    webPreferences: {
-      session: s,
-    },
-  });
-  view.webContents.loadURL(flyffUniverseURL);
-  view.webContents.on('before-input-event', keyboardShortcuts);
-
-  view.webContents.addListener('cursor-changed', async () => {
-    // Focus the BrowserView on mouse enter.
-    if (
-      !view.webContents.isFocused() &&
-      (win?.webContents.isFocused() ||
-        clients.some((c) => c.view?.webContents.isFocused()))
-    ) {
-      view.webContents.focus();
-    }
-
-    // Try to get the characters name from localStorage.
-    // 'cursor-changed' seems to be a bad trigger for this but I don't know a better one for now.
-    const client = clients.find((c) => c.id === id);
-    if (!client?.character) {
-      const clientSessions: string | null = await view.webContents
-        .executeJavaScript(`
-        window.localStorage.getItem('game_client_sessions');
-      `);
-
-      if (client && clientSessions !== null) {
-        client.character = clientSessions.split('\n')[1].split(' ').at(-1);
-        pushClientsUpdate();
-      }
-    }
+const addClient = () => {
+  const id = v4();
+  clients.push({
+    id,
+    view: createBrowserView(id),
+    order: clients.length,
   });
 
-  return view;
-};
-
-export const loadSavedPanels = () => {
-  panelSettings.panels.forEach((panel) => {
-    if (panel.active && panel.clientId) {
-      const client = clients.find((client) => client.id === panel.clientId);
-      if (client) {
-        if (!client?.view) client.view = createBrowserView(client.id);
-        win?.addBrowserView(client.view);
-      }
-    }
-  });
-  pushPanelSettingsUpdate();
-  resizePanels();
+  pushClientsUpdate();
 };
 
 export const _openClient = (clientId: string, panelIndex: number) => {
+  const clientToOpen = clients.find((client) => client.id === clientId);
   const alreadyOpenPanel = panelSettings.panels.find(
     (p) => p.clientId === clientId,
   );
-  if (alreadyOpenPanel?.index === panelIndex) return;
+  if (clientToOpen?.window || alreadyOpenPanel?.index === panelIndex) return;
 
   if (alreadyOpenPanel) alreadyOpenPanel.clientId = undefined;
 
@@ -91,7 +46,6 @@ export const _openClient = (clientId: string, panelIndex: number) => {
   const clientToClose = clients.find((c) => c.id === panelToSwap?.clientId);
   if (clientToClose?.view) win?.removeBrowserView(clientToClose.view);
 
-  const clientToOpen = clients.find((client) => client.id === clientId);
   if (clientToOpen) {
     if (!clientToOpen.view) {
       clientToOpen.view = createBrowserView(clientToOpen.id);
@@ -111,12 +65,45 @@ const openClient = (
   panelIndex: number,
 ) => _openClient(clientId, panelIndex);
 
-const addClient = () => {
-  const id = v4();
-  clients.push({
-    id,
-    view: createBrowserView(id),
-    order: clients.length,
+const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
+  const clientToOpen = clients.find((c) => c.id === clientId);
+  if (!clientToOpen || clientToOpen?.window) return;
+
+  const alreadyOpenPanel = panelSettings.panels.find(
+    (p) => p.clientId === clientId,
+  );
+
+  if (alreadyOpenPanel) {
+    alreadyOpenPanel.clientId = undefined;
+    if (clientToOpen.view) win?.removeBrowserView(clientToOpen.view);
+  }
+
+  const {width, height, x, y} = db.get('windowSettings', {
+    width: 1024,
+    height: 720,
+  });
+
+  clientToOpen.openInNewWindow = true;
+  clientToOpen.window = new BrowserWindow({
+    title: clientToOpen.character,
+    width,
+    height,
+    x: x ? x + 24 : undefined,
+    y: y ? y + 24 : undefined,
+  });
+
+  clientToOpen.view = clientToOpen.view ?? createBrowserView(clientId);
+
+  clientToOpen.window.addBrowserView(clientToOpen.view);
+  const bounds = clientToOpen.window.getContentBounds();
+  if (bounds) clientToOpen.view.setBounds({...bounds, x: 0, y: 0});
+  clientToOpen.view.setAutoResize({width: true, height: true});
+
+  clientToOpen.window.on('close', () => {
+    clientToOpen.openInNewWindow = false;
+    clientToOpen.window?.destroy();
+    clientToOpen.window = undefined;
+    pushClientsUpdate();
   });
 
   pushClientsUpdate();
@@ -168,6 +155,7 @@ export const registerClientHandlers = () => {
   );
   ipcMain.handle('addClient', addClient);
   ipcMain.on('openClient', openClient);
+  ipcMain.on('openClientInNewWindow', openClientInNewWindow);
   ipcMain.on('closeClient', removeClient);
   ipcMain.on('moveClientLeft', moveClientLeft);
   ipcMain.on('moveClientRight', moveClientRight);

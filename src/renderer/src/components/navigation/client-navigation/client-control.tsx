@@ -1,3 +1,4 @@
+import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
 import ChevronLeftIcon from '@heroicons/react/24/solid/ChevronLeftIcon';
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
@@ -30,8 +31,12 @@ export const ClientControl: FC<ClientControlProps> = ({
         if (e.button == 2) setControl(true);
       }}
       className={clsx(
-        'hover:shadow-none group flex w-24 select-none flex-col justify-between shadow hover:bg-transparent',
-        panel ? panelColors[panel.index] : 'bg-gray-darker',
+        'hover:shadow-none group flex w-24 select-none flex-col justify-between shadow',
+        panel
+          ? panelColors[panel.index]
+          : client.openInNewWindow
+            ? 'bg-black'
+            : 'bg-gray-darker',
       )}
     >
       {control ? (
@@ -44,21 +49,42 @@ export const ClientControl: FC<ClientControlProps> = ({
               <ChevronRightIcon className='w-5' />
             </button>
           </div>
-          <button
-            onClick={() => window.api.removeClient(client.id)}
-            className='ml-auto mt-auto'
-          >
-            <TrashIcon className='w-5' />
-          </button>
+
+          <div className='flex justify-between mt-auto'>
+            {!client.openInNewWindow && (
+              <button
+                onClick={() => window.api.openClientInNewWindow(client.id)}
+              >
+                <ArrowTopRightOnSquareIcon className='w-5' />
+              </button>
+            )}
+            <button
+              className='ml-auto'
+              onClick={() => window.api.removeClient(client.id)}
+            >
+              <TrashIcon className='w-5' />
+            </button>
+          </div>
         </div>
       ) : (
         <>
-          <div className='mt-auto flex w-full justify-between px-1.5 py-1 group-hover:hidden'>
+          <div
+            className={clsx(
+              'mt-auto flex w-full justify-between px-1.5 py-1',
+              !client.openInNewWindow && 'group-hover:hidden',
+            )}
+          >
             <p className='truncate drop-shadow'>
               {client.character ?? `Panel ${client.order}`}
             </p>
           </div>
-          <div className='hidden h-full group-hover:flex'>
+
+          <div
+            className={clsx(
+              'hidden h-full',
+              !client.openInNewWindow && 'group-hover:flex',
+            )}
+          >
             <PanelSelect
               panels={panelSettings.panels}
               onClick={(index) => window.api.openClient(client.id, index)}

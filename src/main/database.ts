@@ -71,6 +71,9 @@ export const schema: Schema<Profile> = {
         order: {
           type: 'number',
         },
+        openInNewWindow: {
+          type: 'boolean',
+        },
       },
     },
   },

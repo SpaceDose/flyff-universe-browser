@@ -23,9 +23,7 @@ export const ClientNavigation: FC<ClientNavigationProps> = ({
         />
       ))}
     <button
-      onClick={() => {
-        window.api.addClient();
-      }}
+      onClick={() => window.api.addClient()}
       className='flex w-24 items-center justify-center bg-gray-darker shadow hover:bg-gray-lighter'
     >
       <PlusIcon className='w-5' />

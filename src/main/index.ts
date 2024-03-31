@@ -1,12 +1,12 @@
 import {join} from 'path';
 import {electronApp, optimizer, is} from '@electron-toolkit/utils';
 import {app, shell, BrowserWindow, Menu} from 'electron';
-import {loadSavedPanels, registerClientHandlers} from './clients';
+import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './panels/panels';
 import {resizePanels} from './panels/resize';
 import {registerUpdateHandlers, update} from './update';
-import {keyboardShortcuts} from './utils';
+import {keyboardShortcuts, loadSavedPanels} from './utils';
 
 export let win: BrowserWindow | null = null;
 
@@ -69,6 +69,15 @@ function createWindow(): void {
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'));
   }
+
+  win.on('close', () => {
+    clients.forEach((c) => {
+      c.openInNewWindow = false;
+      c.window?.destroy();
+    });
+
+    pushClientsUpdate();
+  });
 
   registerUpdateHandlers();
   registerDatabaseHandlers();

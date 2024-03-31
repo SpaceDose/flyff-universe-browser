@@ -31,6 +31,8 @@ const api: API = {
   removeClient: (clientId) => ipcRenderer.send('closeClient', clientId),
   openClient: (clientId, panelIndex) =>
     ipcRenderer.send('openClient', clientId, panelIndex),
+  openClientInNewWindow: (clientId) =>
+    ipcRenderer.send('openClientInNewWindow', clientId),
   moveClientLeft: (clientId) => ipcRenderer.send('moveClientLeft', clientId),
   moveClientRight: (clientId) => ipcRenderer.send('moveClientRight', clientId),
 

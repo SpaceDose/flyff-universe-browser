@@ -1,6 +1,6 @@
 import {join} from 'path';
 import {electronApp, optimizer, is} from '@electron-toolkit/utils';
-import {app, shell, BrowserWindow} from 'electron';
+import {app, shell, BrowserWindow, Menu} from 'electron';
 import {loadSavedPanels, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './panels/panels';
@@ -17,7 +17,7 @@ function createWindow(): void {
   });
 
   win = new BrowserWindow({
-    title: 'Flyff Universe Browser',
+    title: app.name,
     show: false,
     width,
     height,
@@ -29,6 +29,14 @@ function createWindow(): void {
     },
   });
   win.setMenu(null);
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      {
+        label: app.name,
+        submenu: [{role: 'togglefullscreen'}],
+      },
+    ]),
+  );
   win.flashFrame(false);
   win.webContents.on('before-input-event', keyboardShortcuts);
 
@@ -82,7 +90,5 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
 });

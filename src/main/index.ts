@@ -1,12 +1,12 @@
 import {join} from 'path';
 import {electronApp, optimizer, is} from '@electron-toolkit/utils';
-import {app, shell, BrowserWindow, Menu} from 'electron';
+import {app, shell, BrowserWindow} from 'electron';
 import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './panels/panels';
 import {resizePanels} from './panels/resize';
 import {registerUpdateHandlers, update} from './update';
-import {keyboardShortcuts, loadSavedPanels} from './utils';
+import {keyboardShortcuts, loadSavedPanels, replaceMenu} from './utils';
 
 export let win: BrowserWindow | null = null;
 
@@ -27,15 +27,7 @@ function createWindow(): void {
       sandbox: false,
     },
   });
-  win.setMenu(null);
-  Menu.setApplicationMenu(
-    Menu.buildFromTemplate([
-      {
-        label: app.name,
-        submenu: [{role: 'togglefullscreen'}],
-      },
-    ]),
-  );
+  replaceMenu(win);
   win.flashFrame(false);
   win.webContents.on('before-input-event', keyboardShortcuts);
 

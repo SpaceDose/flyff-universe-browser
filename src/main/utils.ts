@@ -1,4 +1,4 @@
-import {BrowserView, session} from 'electron';
+import {BrowserView, type BrowserWindow, Menu, app, session} from 'electron';
 import {_openClient, clients, pushClientsUpdate} from './clients';
 import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
 import {resizePanels} from './panels/resize';
@@ -103,4 +103,16 @@ export const loadSavedPanels = () => {
   });
   pushPanelSettingsUpdate();
   resizePanels();
+};
+
+export const replaceMenu = (window: BrowserWindow) => {
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      {
+        label: app.name,
+        submenu: [{role: 'togglefullscreen'}],
+      },
+    ]),
+  );
+  window.setMenu(null);
 };

@@ -1,13 +1,8 @@
-import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
-import ChevronLeftIcon from '@heroicons/react/24/solid/ChevronLeftIcon';
-import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
-import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import clsx from 'clsx';
 import {type FC, useState} from 'react';
-
 import {type Client, type PanelSettings} from '../../../../../preload/types';
 import {panelColors} from '../panel-colors';
+import {ClientContextMenu} from './client-context-menu';
 import {PanelSelect} from './panel-select';
 
 type ClientTileProps = {
@@ -16,69 +11,30 @@ type ClientTileProps = {
 };
 
 export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
-  const [control, setControl] = useState<boolean>(false);
-  const panel = panelSettings.panels.find(
+  const [showContextMenu, setShowContextMenu] = useState<boolean>(false);
+  const activePanel = panelSettings.panels.find(
     (panel) => panel.clientId === client.id,
   );
 
   return (
     <div
       key={client.id}
-      onMouseLeave={() => setControl(false)}
+      onBlur={() => setShowContextMenu(false)}
+      onMouseLeave={() => setShowContextMenu(false)}
       onMouseDown={(e) => {
-        if (e.button == 2) setControl(true);
+        if (e.button == 2) setShowContextMenu(true);
       }}
       className={clsx(
-        'hover:shadow-none group flex w-24 select-none flex-col justify-between shadow',
-        panel
-          ? panelColors[panel.index]
-          : client.openInNewWindow
-            ? 'bg-black'
-            : 'bg-gray-darker hover:bg-transparent',
+        'group flex w-24 select-none flex-col justify-between shadow border hover:bg-transparent rounded',
+        activePanel &&
+          `${panelColors[activePanel.index]} bg-opacity-75 border-white hover:border-transparent hover:shadow-none `,
+        client.openInNewWindow
+          ? 'bg-black hover:bg-black border-gray-lighter'
+          : 'bg-gray-darker border-transparent',
       )}
     >
-      {control ? (
-        <div className='flex h-full flex-col bg-gray-darker px-1.5 py-1'>
-          <div className='flex w-full justify-between'>
-            <button
-              className='hover:scale-125'
-              onClick={() => window.api.reloadClient(client.id)}
-            >
-              <ArrowPathIcon className='w-5' />
-            </button>
-            <div className='flex'>
-              <button
-                className='hover:scale-125'
-                onClick={() => window.api.moveClientLeft(client.id)}
-              >
-                <ChevronLeftIcon className='w-5' />
-              </button>
-              <button
-                className='hover:scale-125'
-                onClick={() => window.api.moveClientRight(client.id)}
-              >
-                <ChevronRightIcon className='w-5' />
-              </button>
-            </div>
-          </div>
-
-          <div className='flex justify-between mt-auto'>
-            {!client.openInNewWindow && (
-              <button
-                className='hover:scale-125'
-                onClick={() => window.api.openClientInNewWindow(client.id)}
-              >
-                <ArrowTopRightOnSquareIcon className='w-5' />
-              </button>
-            )}
-            <button
-              className='ml-auto hover:scale-125'
-              onClick={() => window.api.removeClient(client.id)}
-            >
-              <TrashIcon className='w-5' />
-            </button>
-          </div>
-        </div>
+      {showContextMenu ? (
+        <ClientContextMenu client={client} />
       ) : (
         <>
           <div
@@ -101,7 +57,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
             <PanelSelect
               panels={panelSettings.panels}
               onClick={(index) => window.api.openClient(client.id, index)}
-              mouseOverPanel={panel?.index}
+              mouseOverPanel={activePanel?.index}
             />
           </div>
         </>

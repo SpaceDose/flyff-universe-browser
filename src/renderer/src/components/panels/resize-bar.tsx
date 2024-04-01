@@ -1,8 +1,8 @@
-import clsx, {type ClassValue} from 'clsx';
 import {type FC} from 'react';
+import {type ClassNameValue, twMerge} from 'tailwind-merge';
 
 type ResizeBarProps = {
-  className: ClassValue;
+  className: ClassNameValue;
   style: React.CSSProperties;
   onMouseDownCapture: () => void;
 };
@@ -15,7 +15,7 @@ export const ResizeBar: FC<ResizeBarProps> = ({
   <div
     draggable
     style={style}
-    className={clsx(
+    className={twMerge(
       'absolute top-0 flex select-none items-center justify-center bg-black',
       className,
     )}

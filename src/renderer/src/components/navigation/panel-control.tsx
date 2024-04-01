@@ -1,7 +1,7 @@
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
-import clsx from 'clsx';
 import {type FC} from 'react';
+import {twMerge} from 'tailwind-merge';
 import {type Panel} from '../../../../preload/types';
 import {PanelSelect} from './client-navigation/panel-select';
 
@@ -30,7 +30,7 @@ export const PanelControl: FC<UnlockPanelProps> = ({panels}) => {
         <div className='ml-0.5 flex flex-col self-center'>
           <button
             onClick={addPanel}
-            className={clsx(
+            className={twMerge(
               'hover:bg-gray-500 rounded-full p-0.5',
               panels.length === 4 && 'cursor-default opacity-25',
             )}
@@ -39,7 +39,7 @@ export const PanelControl: FC<UnlockPanelProps> = ({panels}) => {
           </button>
           <button
             onClick={removePanel}
-            className={clsx(
+            className={twMerge(
               'hover:bg-gray-500 rounded-full p-0.5',
               panels.length === 1 && 'cursor-default opacity-25',
             )}

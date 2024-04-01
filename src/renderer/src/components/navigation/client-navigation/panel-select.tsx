@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import {type FC} from 'react';
+import {twMerge} from 'tailwind-merge';
 import {type Panel} from '../../../../../preload/types';
 import {hoverPanelColors, panelColors} from '../panel-colors';
 
@@ -18,9 +18,9 @@ export const PanelSelect: FC<PanelSelect> = ({
 
   return (
     <div
-      className={clsx(
-        'grid w-24 grid-cols-2',
-        usedAsPanelControl ? 'gap-0.5' : 'gap-1',
+      className={twMerge(
+        'grid w-24 grid-cols-2 gap-1',
+        usedAsPanelControl && 'gap-0.5',
       )}
     >
       {panels.map((panel) => (
@@ -29,14 +29,14 @@ export const PanelSelect: FC<PanelSelect> = ({
           onClick={() => {
             if (onClick) onClick(panel.index);
           }}
-          className={clsx(
-            'group flex items-center justify-center shadow',
+          className={twMerge(
+            'group flex items-center justify-center shadow border border-transparent bg-gray-darker',
             !usedAsPanelControl && 'rounded',
             panels.length < 2 && 'col-span-2',
             panels.length % 2 && 'first:row-span-2',
             usedAsPanelControl || mouseOverPanel === panel.index
               ? `${panelColors[panel.index]} cursor-default`
-              : `bg-gray-darker ${hoverPanelColors[panel.index]} border-white hover:border`,
+              : `${hoverPanelColors[panel.index]} hover:border-white`,
             mouseOverPanel === panel.index && 'opacity-75',
           )}
         />

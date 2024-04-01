@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import {type FC, useState} from 'react';
+import {twMerge} from 'tailwind-merge';
 import {type Client, type PanelSettings} from '../../../../../preload/types';
 import {panelColors} from '../panel-colors';
 import {ClientContextMenu} from './client-context-menu';
@@ -12,25 +12,24 @@ type ClientTileProps = {
 
 export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
   const [showContextMenu, setShowContextMenu] = useState<boolean>(false);
+  const {id, openInNewWindow, character, order} = client;
   const activePanel = panelSettings.panels.find(
     (panel) => panel.clientId === client.id,
   );
 
   return (
     <div
-      key={client.id}
+      key={id}
       onBlur={() => setShowContextMenu(false)}
       onMouseLeave={() => setShowContextMenu(false)}
       onMouseDown={(e) => {
         if (e.button == 2) setShowContextMenu(true);
       }}
-      className={clsx(
-        'group flex w-24 select-none flex-col justify-between shadow border hover:bg-transparent rounded',
+      className={twMerge(
+        'group flex w-24 select-none flex-col justify-between bg-gray-darker shadow border border-transparent hover:bg-transparent rounded hover:shadow-transparent',
         activePanel &&
-          `${panelColors[activePanel.index]} bg-opacity-75 border-white hover:border-transparent hover:shadow-none `,
-        client.openInNewWindow
-          ? 'bg-black hover:bg-black border-gray-lighter'
-          : 'bg-gray-darker border-transparent',
+          `${panelColors[activePanel.index]} bg-opacity-75 border-white/50 hover:border-transparent`,
+        openInNewWindow && 'bg-black hover:bg-black',
       )}
     >
       {showContextMenu ? (
@@ -38,25 +37,25 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       ) : (
         <>
           <div
-            className={clsx(
+            className={twMerge(
               'mt-auto flex w-full justify-between px-1.5 py-1',
-              !client.openInNewWindow && 'group-hover:hidden',
+              !openInNewWindow && 'group-hover:hidden',
             )}
           >
             <p className='truncate drop-shadow'>
-              {client.character ?? `Panel ${client.order}`}
+              {character ?? `Panel ${order}`}
             </p>
           </div>
 
           <div
-            className={clsx(
+            className={twMerge(
               'hidden h-full',
-              !client.openInNewWindow && 'group-hover:flex',
+              !openInNewWindow && 'group-hover:flex',
             )}
           >
             <PanelSelect
               panels={panelSettings.panels}
-              onClick={(index) => window.api.openClient(client.id, index)}
+              onClick={(index) => window.api.openClient(id, index)}
               mouseOverPanel={activePanel?.index}
             />
           </div>

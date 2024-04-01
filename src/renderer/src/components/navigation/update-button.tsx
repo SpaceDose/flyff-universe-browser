@@ -1,7 +1,7 @@
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import {Spinner} from '@radix-ui/themes';
-import clsx from 'clsx';
 import {type FC, useContext} from 'react';
+import {twMerge} from 'tailwind-merge';
 import {UpdateStatusContext} from '../provider/update-status-provider';
 
 export const UpdateButton: FC = () => {
@@ -11,7 +11,7 @@ export const UpdateButton: FC = () => {
 
   return (
     <button
-      className={clsx(
+      className={twMerge(
         'ml-auto w-36 flex-col p-2 flex items-center justify-center text-xs gap-px',
         readyToInstall ? 'hover:bg-gray-light' : 'cursor-default',
       )}

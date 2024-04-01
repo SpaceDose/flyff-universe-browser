@@ -48,7 +48,10 @@ export const _openClient = (clientId: string, panelIndex: number) => {
 
   if (clientToOpen) {
     if (!clientToOpen.view) {
-      clientToOpen.view = createBrowserView(clientToOpen.id);
+      clientToOpen.view = createBrowserView(
+        clientToOpen.id,
+        clientToOpen.isMuted,
+      );
     }
     const panel = panelSettings.panels.find((p) => p.index === panelIndex);
     if (panel) panel.clientId = clientId;
@@ -83,7 +86,7 @@ const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
     height: 720,
   });
 
-  clientToOpen.openInNewWindow = true;
+  clientToOpen.isOpenInNewWindow = true;
   clientToOpen.window = new BrowserWindow({
     title: clientToOpen.character,
     width,
@@ -93,7 +96,8 @@ const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   });
   replaceMenu(clientToOpen.window);
 
-  clientToOpen.view = clientToOpen.view ?? createBrowserView(clientId);
+  clientToOpen.view =
+    clientToOpen.view ?? createBrowserView(clientId, clientToOpen.isMuted);
 
   clientToOpen.window.addBrowserView(clientToOpen.view);
   const bounds = clientToOpen.window.getContentBounds();
@@ -101,9 +105,10 @@ const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   clientToOpen.view.setAutoResize({width: true, height: true});
 
   clientToOpen.window.on('close', () => {
-    clientToOpen.openInNewWindow = false;
+    clientToOpen.isOpenInNewWindow = false;
     clientToOpen.window?.destroy();
     clientToOpen.window = undefined;
+
     pushClientsUpdate();
   });
 
@@ -152,6 +157,16 @@ const reloadClient = (_: IpcMainInvokeEvent, clientId: string) => {
   if (client?.view) client.view.webContents.reload();
 };
 
+const toggleMuted = (_: IpcMainInvokeEvent, clientId: string) => {
+  const client = clients.find((c) => c.id === clientId);
+  if (client) {
+    client.isMuted = !client?.isMuted;
+    if (client.view) client.view.webContents.setAudioMuted(client.isMuted);
+  }
+
+  pushClientsUpdate();
+};
+
 export const registerClientHandlers = () => {
   ipcMain.handle('getClients', () =>
     clients.map((client) => {
@@ -166,4 +181,5 @@ export const registerClientHandlers = () => {
   ipcMain.on('moveClientLeft', moveClientLeft);
   ipcMain.on('moveClientRight', moveClientRight);
   ipcMain.on('reloadClient', reloadClient);
+  ipcMain.on('toggleMuted', toggleMuted);
 };

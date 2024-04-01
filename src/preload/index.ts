@@ -36,6 +36,7 @@ const api: API = {
   moveClientLeft: (clientId) => ipcRenderer.send('moveClientLeft', clientId),
   moveClientRight: (clientId) => ipcRenderer.send('moveClientRight', clientId),
   reloadClient: (clientId) => ipcRenderer.send('reloadClient', clientId),
+  toggleMuted: (clientId) => ipcRenderer.send('toggleMuted', clientId),
 
   // update frontend
   pullPanelSettingsUpdate: () => ipcRenderer.invoke('pullPanelSettingsUpdate'),

@@ -64,7 +64,7 @@ function createWindow(): void {
 
   win.on('close', () => {
     clients.forEach((c) => {
-      c.openInNewWindow = false;
+      c.isOpenInNewWindow = false;
       c.window?.destroy();
     });
 

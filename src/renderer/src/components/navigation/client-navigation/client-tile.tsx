@@ -12,7 +12,7 @@ type ClientTileProps = {
 
 export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
   const [showContextMenu, setShowContextMenu] = useState<boolean>(false);
-  const {id, openInNewWindow, character, order} = client;
+  const {id, isOpenInNewWindow, character, order} = client;
   const activePanel = panelSettings.panels.find(
     (panel) => panel.clientId === client.id,
   );
@@ -29,7 +29,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
         'group flex w-24 select-none flex-col justify-between bg-gray-darker shadow border border-transparent hover:bg-transparent rounded hover:shadow-transparent',
         activePanel &&
           `${panelColors[activePanel.index]} bg-opacity-75 border-white/50 hover:border-transparent`,
-        openInNewWindow && 'bg-black hover:bg-black',
+        isOpenInNewWindow && 'bg-black hover:bg-black',
       )}
     >
       {showContextMenu ? (
@@ -39,7 +39,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
           <div
             className={twMerge(
               'mt-auto flex w-full justify-between px-1.5 py-1',
-              !openInNewWindow && 'group-hover:hidden',
+              !isOpenInNewWindow && 'group-hover:hidden',
             )}
           >
             <p className='truncate drop-shadow'>
@@ -50,7 +50,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
           <div
             className={twMerge(
               'hidden h-full',
-              !openInNewWindow && 'group-hover:flex',
+              !isOpenInNewWindow && 'group-hover:flex',
             )}
           >
             <PanelSelect

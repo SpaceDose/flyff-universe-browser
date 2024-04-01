@@ -42,6 +42,7 @@ export type Client = {
   character?: string;
   view?: BrowserView;
   order: number;
-  openInNewWindow?: boolean;
+  isOpenInNewWindow?: boolean;
+  isMuted?: boolean;
   window?: BrowserWindow;
 };

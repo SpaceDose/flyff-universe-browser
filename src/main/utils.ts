@@ -30,7 +30,7 @@ export const keyboardShortcuts: (
 
       if (activeClient) {
         const clientsWithoutOpenWindows = clients
-          .filter((c) => !c.openInNewWindow)
+          .filter((c) => !c.isOpenInNewWindow)
           .sort((a, b) => a.order - b.order);
         const clientIndex = clientsWithoutOpenWindows.indexOf(activeClient);
 
@@ -55,7 +55,10 @@ export const keyboardShortcuts: (
   }
 };
 
-export const createBrowserView: (id: string) => BrowserView = (id) => {
+export const createBrowserView: (
+  id: string,
+  isMuted?: boolean,
+) => BrowserView = (id, isMuted) => {
   const s = session.fromPartition(`persist:client-${id}`);
   const view = new BrowserView({
     webPreferences: {
@@ -91,6 +94,8 @@ export const createBrowserView: (id: string) => BrowserView = (id) => {
     }
   });
 
+  view.webContents.setAudioMuted(!!isMuted);
+
   return view;
 };
 
@@ -99,7 +104,8 @@ export const loadSavedPanels = () => {
     if (panel.active && panel.clientId) {
       const client = clients.find((client) => client.id === panel.clientId);
       if (client) {
-        if (!client?.view) client.view = createBrowserView(client.id);
+        if (!client?.view)
+          client.view = createBrowserView(client.id, client.isMuted);
         win?.addBrowserView(client.view);
       }
     }

@@ -20,6 +20,7 @@ export interface API {
   moveClientLeft: (clientId: string) => void;
   moveClientRight: (clientId: string) => void;
   reloadClient: (clientId: string) => void;
+  toggleMuted: (clientId: string) => void;
 
   // update frontend
   pullPanelSettingsUpdate: () => Promise<boolean>;

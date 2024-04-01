@@ -19,6 +19,7 @@ export interface API {
   openClientInNewWindow: (clientId: string) => void;
   moveClientLeft: (clientId: string) => void;
   moveClientRight: (clientId: string) => void;
+  reloadClient: (clientId: string) => void;
 
   // update frontend
   pullPanelSettingsUpdate: () => Promise<boolean>;

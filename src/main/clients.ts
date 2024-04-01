@@ -147,6 +147,11 @@ const moveClientLeft = (_: IpcMainInvokeEvent, clientId: string) =>
 const moveClientRight = (_: IpcMainInvokeEvent, clientId: string) =>
   _moveClient(clientId, 'right');
 
+const reloadClient = (_: IpcMainInvokeEvent, clientId: string) => {
+  const client = clients.find((c) => c.id === clientId);
+  if (client?.view) client.view.webContents.reload();
+};
+
 export const registerClientHandlers = () => {
   ipcMain.handle('getClients', () =>
     clients.map((client) => {
@@ -160,4 +165,5 @@ export const registerClientHandlers = () => {
   ipcMain.on('closeClient', removeClient);
   ipcMain.on('moveClientLeft', moveClientLeft);
   ipcMain.on('moveClientRight', moveClientRight);
+  ipcMain.on('reloadClient', reloadClient);
 };

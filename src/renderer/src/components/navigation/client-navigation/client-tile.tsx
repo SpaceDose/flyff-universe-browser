@@ -10,15 +10,12 @@ import {type Client, type PanelSettings} from '../../../../../preload/types';
 import {panelColors} from '../panel-colors';
 import {PanelSelect} from './panel-select';
 
-type ClientControlProps = {
+type ClientTileProps = {
   client: Client;
   panelSettings: PanelSettings;
 };
 
-export const ClientControl: FC<ClientControlProps> = ({
-  client,
-  panelSettings,
-}) => {
+export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
   const [control, setControl] = useState<boolean>(false);
   const panel = panelSettings.panels.find(
     (panel) => panel.clientId === client.id,

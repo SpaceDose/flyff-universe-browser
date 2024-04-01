@@ -1,7 +1,7 @@
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {type FC} from 'react';
 import {type Client, type PanelSettings} from '../../../../../preload/types';
-import {ClientControl} from './client-control';
+import {ClientTile} from './client-tile';
 
 type ClientNavigationProps = {
   clients: Client[];
@@ -16,7 +16,7 @@ export const ClientNavigation: FC<ClientNavigationProps> = ({
     {clients
       .sort((a, b) => a.order - b.order)
       .map((client) => (
-        <ClientControl
+        <ClientTile
           key={client.id}
           client={client}
           panelSettings={panelSettings}

@@ -3,6 +3,7 @@ import {_openClient, clients, pushClientsUpdate} from './clients';
 import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
 import {resizePanels} from './panels/resize';
 import {win} from '.';
+import {platform} from 'process';
 
 const flyffUniverseURL =
   import.meta.env.VITE_TEST_URL ?? 'https://universe.flyff.com/play';
@@ -115,13 +116,16 @@ export const loadSavedPanels = () => {
 };
 
 export const replaceMenu = (window: BrowserWindow) => {
-  Menu.setApplicationMenu(
-    Menu.buildFromTemplate([
-      {
-        label: app.name,
-        submenu: [{role: 'togglefullscreen'}],
-      },
-    ]),
-  );
-  window.setMenu(null);
+  if (platform === 'darwin') {
+    Menu.setApplicationMenu(
+      Menu.buildFromTemplate([
+        {
+          label: app.name,
+          submenu: [{role: 'togglefullscreen'}],
+        },
+      ]),
+    );
+  } else {
+    window.setMenu(null);
+  }
 };

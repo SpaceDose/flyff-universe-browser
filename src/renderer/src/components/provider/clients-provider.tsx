@@ -11,7 +11,7 @@ type ClientsProviderProps = {
   children: ReactNode;
 };
 
-export const ClientsProviderContext = createContext<Client[]>([]);
+export const ClientsContext = createContext<Client[]>([]);
 
 export const ClientsProvider: FC<ClientsProviderProps> = ({children}) => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -31,8 +31,8 @@ export const ClientsProvider: FC<ClientsProviderProps> = ({children}) => {
   }, []);
 
   return (
-    <ClientsProviderContext.Provider value={clients}>
+    <ClientsContext.Provider value={clients}>
       {children}
-    </ClientsProviderContext.Provider>
+    </ClientsContext.Provider>
   );
 };

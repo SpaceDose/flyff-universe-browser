@@ -33,4 +33,5 @@ export interface API {
   // handle app updates
   installUpdate: () => void;
   pushUpdateAvailable: (callback: (event: unknown) => void) => () => void;
+  pushUpdateReadyToInstall: (callback: (event: unknown) => void) => () => void;
 }

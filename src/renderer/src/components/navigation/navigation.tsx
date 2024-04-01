@@ -1,7 +1,7 @@
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
 import {useContext, type FC} from 'react';
-import {ClientsProviderContext} from '../provider/clients-provider';
+import {ClientsContext} from '../provider/clients-provider';
 import {PanelSettingsContext} from '../provider/panel-settings-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
@@ -10,7 +10,7 @@ import {UpdateButton} from './update-button';
 
 export const Navigation: FC = () => {
   const panelSettings = useContext(PanelSettingsContext);
-  const clients = useContext(ClientsProviderContext);
+  const clients = useContext(ClientsContext);
 
   const {showNavigation, padding, navigationHeight} = panelSettings;
 

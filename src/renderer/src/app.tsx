@@ -4,10 +4,10 @@ import {Panels} from './components/panels/panels';
 import {ClientsProvider} from './components/provider/clients-provider';
 import {PanelSettingsProvider} from './components/provider/panel-settings-provider';
 import '@fontsource/nunito';
-import {UpdateAvailableProvider} from './components/provider/update-available-provider';
+import {UpdateStatusProvider} from './components/provider/update-status-provider';
 
 export const App: FC = () => (
-  <UpdateAvailableProvider>
+  <UpdateStatusProvider>
     <ClientsProvider>
       <PanelSettingsProvider>
         <div className='flex h-screen flex-col bg-blue-lighter text-white'>
@@ -16,5 +16,5 @@ export const App: FC = () => (
         </div>
       </PanelSettingsProvider>
     </ClientsProvider>
-  </UpdateAvailableProvider>
+  </UpdateStatusProvider>
 );

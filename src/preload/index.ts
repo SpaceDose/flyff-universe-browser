@@ -45,6 +45,7 @@ const api: API = {
   // handle app updates
   installUpdate: () => ipcRenderer.invoke('installUpdate'),
   pushUpdateAvailable: push('pushUpdateAvailable'),
+  pushUpdateReadyToInstall: push('pushUpdateReadyToInstall'),
 };
 
 if (process.contextIsolated) {

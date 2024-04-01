@@ -27,21 +27,24 @@ export const keyboardShortcuts: (
       const activeClient = clients.find(
         (c) => c.id === activePanels[0].clientId,
       );
-      if (activeClient) {
-        const clientToOpen = clients.find((c) => {
-          const targetOrder =
-            activeClient.order + (input.key === 'ArrowLeft' ? -1 : 1);
 
-          return (
-            c.order ===
-            (targetOrder < 0
-              ? clients.length - 1
-              : targetOrder === clients.length
-                ? 0
-                : targetOrder)
-          );
-        });
-        if (clientToOpen) _openClient(clientToOpen?.id, 0);
+      if (activeClient) {
+        const clientsWithoutOpenWindows = clients
+          .filter((c) => !c.openInNewWindow)
+          .sort((a, b) => a.order - b.order);
+        const clientIndex = clientsWithoutOpenWindows.indexOf(activeClient);
+
+        if (clientIndex > -1) {
+          const clientToOpen =
+            clientsWithoutOpenWindows[
+              (clientIndex +
+                (input.key === 'ArrowLeft' ? -1 : 1) +
+                clientsWithoutOpenWindows.length) %
+                clientsWithoutOpenWindows.length
+            ];
+
+          if (clientToOpen) _openClient(clientToOpen?.id, 0);
+        }
       } else {
         const sortedClient = clients.sort((a, b) => a.order - b.order);
         if (sortedClient.length > 0) {

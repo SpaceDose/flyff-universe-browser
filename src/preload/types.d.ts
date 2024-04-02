@@ -29,6 +29,7 @@ export type PanelSettings = {
   padding: number;
   navigationHeight: number;
   showNavigation: boolean;
+  isFullscreen?: boolean;
 };
 
 export type Panel = {

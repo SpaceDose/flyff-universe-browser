@@ -14,7 +14,10 @@ export const keyboardShortcuts: (
 ) => void = (event, input) => {
   if (input.type === 'keyDown' && input.alt && input.key === 'Enter') {
     event.preventDefault();
-    win?.setFullScreen(!win.isFullScreen());
+    const newState = !win?.isFullScreen();
+    win?.setFullScreen(newState);
+    panelSettings.isFullscreen = newState;
+    pushPanelSettingsUpdate();
   }
 
   if (

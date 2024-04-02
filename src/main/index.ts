@@ -6,7 +6,7 @@ import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './panels/panels';
 import {resizePanels} from './panels/resize';
 import {registerUpdateHandlers, update} from './update';
-import {keyboardShortcuts, loadSavedPanels, replaceMenu} from './utils';
+import {keyboardShortcuts, loadSavedPanels} from './utils';
 
 export let win: BrowserWindow | null = null;
 
@@ -27,7 +27,7 @@ function createWindow(): void {
       sandbox: false,
     },
   });
-  replaceMenu(win);
+  win.setMenu(null);
   win.flashFrame(false);
   win.webContents.on('before-input-event', keyboardShortcuts);
 

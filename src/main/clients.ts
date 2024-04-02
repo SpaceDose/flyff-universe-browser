@@ -3,7 +3,7 @@ import {v4} from 'uuid';
 import {type Client} from '../preload/types';
 import {db} from './database';
 import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
-import {createBrowserView, replaceMenu} from './utils';
+import {createBrowserView} from './utils';
 import {win} from '.';
 
 export const clients: Client[] = db.get('clients', []);
@@ -119,7 +119,7 @@ const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
     x: x ? x + 24 : undefined,
     y: y ? y + 24 : undefined,
   });
-  replaceMenu(clientToOpen.window);
+  clientToOpen.window.setMenu(null);
 
   clientToOpen.view =
     clientToOpen.view ?? createBrowserView(clientId, clientToOpen.isMuted);

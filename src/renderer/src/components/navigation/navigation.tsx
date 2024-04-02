@@ -41,7 +41,9 @@ export const Navigation: FC = () => {
           <PanelControl panels={panelSettings.panels} />
           <NavigationDivider />
           <ClientNavigation clients={clients} panelSettings={panelSettings} />
-          <UpdateButton />
+          <div className='ml-auto flex items-center gap-4'>
+            <UpdateButton />
+          </div>
         </div>
       )}
     </div>

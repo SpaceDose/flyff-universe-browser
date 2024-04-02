@@ -1,6 +1,6 @@
 import {type FC, useState, useCallback, useEffect, useContext} from 'react';
-import Logo from '../../assets/logo.png';
 import {PanelSettingsContext} from '../provider/panel-settings-provider';
+import {PanelBackground} from './panel-background';
 import {ResizeBar} from './resize-bar';
 
 const {min, max} = Math;
@@ -102,8 +102,9 @@ export const Panels: FC = () => {
   }, [navigationHeight, padding, showNavigation]);
 
   return (
-    <div className='text-green-500 relative w-full grow'>
-      <img src={Logo} className='p-4' />
+    <div className='text-green-500 relative w-full grow overflow-hidden'>
+      <PanelBackground />
+
       {panels.length > 1 && (
         <ResizeBar
           className='hover:cursor-ew-resize'

@@ -1,9 +1,9 @@
+import {platform} from 'process';
 import {BrowserView, type BrowserWindow, Menu, app, session} from 'electron';
 import {_openClient, clients, pushClientsUpdate} from './clients';
 import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
 import {resizePanels} from './panels/resize';
 import {win} from '.';
-import {platform} from 'process';
 
 const flyffUniverseURL =
   import.meta.env.VITE_TEST_URL ?? 'https://universe.flyff.com/play';

@@ -12,7 +12,7 @@ export const UpdateButton: FC = () => {
   return (
     <button
       className={twMerge(
-        'ml-auto w-36 flex-col p-2 flex items-center justify-center text-xs gap-px',
+        'w-36 flex-col p-2 flex items-center justify-center text-xs gap-px',
         readyToInstall ? 'hover:bg-gray-light' : 'cursor-default',
       )}
       onClick={() => {

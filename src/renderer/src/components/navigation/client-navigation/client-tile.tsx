@@ -42,7 +42,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
             )}
             onClick={() => window.api.closeWindow(client.id)}
           >
-            <p className='flex group-hover:hidden'>
+            <p className='group-hover:hidden truncate'>
               {character ?? `Panel ${order}`}
             </p>
             <p className='group-hover:flex hidden'>Close Window</p>

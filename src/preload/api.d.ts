@@ -16,7 +16,8 @@ export interface API {
   addClient: () => void;
   removeClient: (clientId: string) => void;
   openClient: (clientId: string, panelIndex: number) => void;
-  openClientInNewWindow: (clientId: string) => void;
+  openWindow: (clientId: string) => void;
+  closeWindow: (clientId: string) => void;
   moveClientLeft: (clientId: string) => void;
   moveClientRight: (clientId: string) => void;
   reloadClient: (clientId: string) => void;

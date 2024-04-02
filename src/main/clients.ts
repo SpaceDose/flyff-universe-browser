@@ -31,12 +31,37 @@ const addClient = () => {
   pushClientsUpdate();
 };
 
+const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
+  const index = clients.findIndex((client) => client.id === clientId);
+  const client = clients[index];
+  const panel = panelSettings.panels.find(
+    (panel) => panel.clientId === clientId,
+  );
+
+  if (client?.view && panel) {
+    panel.clientId = undefined;
+    win?.removeBrowserView(client.view);
+  }
+
+  clients.splice(index, 1);
+  clients.sort((a, b) => a.order - b.order).forEach((c, i) => (c.order = i));
+
+  pushClientsUpdate();
+};
+
 export const _openClient = (clientId: string, panelIndex: number) => {
   const clientToOpen = clients.find((client) => client.id === clientId);
   const alreadyOpenPanel = panelSettings.panels.find(
     (p) => p.clientId === clientId,
   );
-  if (clientToOpen?.window || alreadyOpenPanel?.index === panelIndex) return;
+
+  if (clientToOpen?.window) return;
+  if (alreadyOpenPanel?.index === panelIndex && clientToOpen?.view) {
+    alreadyOpenPanel.clientId = undefined;
+    win?.removeBrowserView(clientToOpen.view);
+    pushClientsUpdate();
+    return;
+  }
 
   if (alreadyOpenPanel) alreadyOpenPanel.clientId = undefined;
 
@@ -68,7 +93,7 @@ const openClient = (
   panelIndex: number,
 ) => _openClient(clientId, panelIndex);
 
-const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
+const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   const clientToOpen = clients.find((c) => c.id === clientId);
   if (!clientToOpen || clientToOpen?.window) return;
 
@@ -115,22 +140,16 @@ const openClientInNewWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   pushClientsUpdate();
 };
 
-const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
-  const index = clients.findIndex((client) => client.id === clientId);
-  const client = clients[index];
-  const panel = panelSettings.panels.find(
-    (panel) => panel.clientId === clientId,
-  );
+const closeWindow = (_: IpcMainInvokeEvent, clientId: string) => {
+  const client = clients.find((c) => c.id === clientId);
 
-  if (client?.view && panel) {
-    panel.clientId = undefined;
-    win?.removeBrowserView(client.view);
+  if (client) {
+    client.isOpenInNewWindow = false;
+    client.window?.destroy();
+    client.window = undefined;
+
+    pushClientsUpdate();
   }
-
-  clients.splice(index, 1);
-  clients.sort((a, b) => a.order - b.order).forEach((c, i) => (c.order = i));
-
-  pushClientsUpdate();
 };
 
 const _moveClient = (clientId: string, direction: 'left' | 'right') => {
@@ -175,9 +194,10 @@ export const registerClientHandlers = () => {
     }),
   );
   ipcMain.handle('addClient', addClient);
+  ipcMain.on('removeClient', removeClient);
   ipcMain.on('openClient', openClient);
-  ipcMain.on('openClientInNewWindow', openClientInNewWindow);
-  ipcMain.on('closeClient', removeClient);
+  ipcMain.on('openWindow', openWindow);
+  ipcMain.on('closeWindow', closeWindow);
   ipcMain.on('moveClientLeft', moveClientLeft);
   ipcMain.on('moveClientRight', moveClientRight);
   ipcMain.on('reloadClient', reloadClient);

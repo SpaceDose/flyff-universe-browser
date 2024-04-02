@@ -30,14 +30,14 @@ export const PanelSelect: FC<PanelSelect> = ({
             if (onClick) onClick(panel.index);
           }}
           className={twMerge(
-            'group flex items-center justify-center shadow border border-transparent bg-gray-darker',
-            !usedAsPanelControl && 'rounded',
+            'group shadow border border-transparent bg-gray-darker',
+            usedAsPanelControl ? 'cursor-default' : 'rounded',
             panels.length < 2 && 'col-span-2',
             panels.length % 2 && 'first:row-span-2',
             usedAsPanelControl || mouseOverPanel === panel.index
-              ? `${panelColors[panel.index]} cursor-default`
+              ? panelColors[panel.index]
               : `${hoverPanelColors[panel.index]} hover:border-white`,
-            mouseOverPanel === panel.index && 'opacity-75',
+            mouseOverPanel === panel.index && 'bg-opacity-75 hover:border-red',
           )}
         />
       ))}

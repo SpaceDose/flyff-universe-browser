@@ -28,11 +28,11 @@ const api: API = {
   // client
   getClients: () => ipcRenderer.invoke('getClients'),
   addClient: () => ipcRenderer.invoke('addClient'),
-  removeClient: (clientId) => ipcRenderer.send('closeClient', clientId),
+  removeClient: (clientId) => ipcRenderer.send('removeClient', clientId),
   openClient: (clientId, panelIndex) =>
     ipcRenderer.send('openClient', clientId, panelIndex),
-  openClientInNewWindow: (clientId) =>
-    ipcRenderer.send('openClientInNewWindow', clientId),
+  openWindow: (clientId) => ipcRenderer.send('openWindow', clientId),
+  closeWindow: (clientId) => ipcRenderer.send('closeWindow', clientId),
   moveClientLeft: (clientId) => ipcRenderer.send('moveClientLeft', clientId),
   moveClientRight: (clientId) => ipcRenderer.send('moveClientRight', clientId),
   reloadClient: (clientId) => ipcRenderer.send('reloadClient', clientId),

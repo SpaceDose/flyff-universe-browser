@@ -22,15 +22,14 @@ module.exports = {
       yellow: {
         DEFAULT: '#ECC917',
       },
+      red: {
+        DEFAULT: '#ED1F33',
+      },
       transparent: '#ffffff00',
     },
     boxShadow: {
       DEFAULT:
         '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    },
-    dropShadow: {
-      DEFAULT:
-        'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))',
     },
     extend: {},
   },

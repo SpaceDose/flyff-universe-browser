@@ -25,27 +25,28 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       onMouseDown={(e) => {
         if (e.button == 2) setShowContextMenu(true);
       }}
-      className={twMerge(
-        'group flex w-24 select-none flex-col justify-between bg-gray-darker shadow border border-transparent hover:bg-transparent rounded hover:shadow-transparent',
-        activePanel &&
-          `${panelColors[activePanel.index]} bg-opacity-75 border-white/50 hover:border-transparent`,
-        isOpenInNewWindow && 'bg-black hover:bg-black',
-      )}
+      className='group w-24 select-none'
     >
       {showContextMenu ? (
         <ClientContextMenu client={client} />
       ) : (
         <>
-          <div
+          <button
             className={twMerge(
-              'mt-auto flex w-full justify-between px-1.5 py-1',
-              !isOpenInNewWindow && 'group-hover:hidden',
+              'flex size-full bg-gray-darker border-transparent border rounded text-left items-end shadow cursor-pointer px-1.5 py-1',
+              activePanel &&
+                `${panelColors[activePanel.index]} bg-opacity-75 border-white hover:border-transparent`,
+              isOpenInNewWindow
+                ? 'bg-black hover:border-red'
+                : 'group-hover:hidden',
             )}
+            onClick={() => window.api.closeWindow(client.id)}
           >
-            <p className='truncate drop-shadow'>
+            <p className='flex group-hover:hidden'>
               {character ?? `Panel ${order}`}
             </p>
-          </div>
+            <p className='group-hover:flex hidden'>Close Window</p>
+          </button>
 
           <div
             className={twMerge(

@@ -44,7 +44,7 @@ export const ClientContextMenu: FC<ClientContextMenuProps> = ({client}) => (
         icon={client.isMuted ? <SpeakerXMarkIcon /> : <SpeakerWaveIcon />}
       />
       <MenuButton
-        onClick={() => window.api.openClientInNewWindow(client.id)}
+        onClick={() => window.api.openWindow(client.id)}
         icon={<ArrowTopRightOnSquareIcon />}
         hide={client.isOpenInNewWindow}
       />

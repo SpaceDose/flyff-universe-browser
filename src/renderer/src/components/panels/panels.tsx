@@ -6,8 +6,6 @@ import {ResizeBar} from './resize-bar';
 const {min, max} = Math;
 
 export type Cursor = {
-  isDraggingX?: boolean;
-  isDraggingY?: boolean;
   deltaX: number;
   deltaY: number;
 };
@@ -16,6 +14,7 @@ export const Panels: FC = () => {
   const {splitX, splitY, padding, showNavigation, navigationHeight, panels} =
     useContext(PanelSettingsContext);
 
+  const [isDragging, setIsDragging] = useState<{x?: boolean; y?: boolean}>({});
   const [cursor, setCursor] = useState<Cursor>({deltaX: 0, deltaY: 0});
   const [{width, height}, setWindowSize] = useState<{
     width: number;
@@ -46,9 +45,9 @@ export const Panels: FC = () => {
 
   useEffect(() => {
     const mouseMove = (e: MouseEvent) => {
-      if (cursor.isDraggingX || cursor.isDraggingY) {
-        const dx = cursor.isDraggingX ? e.clientX - pxSplitX : undefined;
-        const dy = cursor.isDraggingY ? e.clientY - pxSplitY : undefined;
+      if (isDragging.x || isDragging.y) {
+        const dx = isDragging.x ? e.clientX - pxSplitX : undefined;
+        const dy = isDragging.y ? e.clientY - pxSplitY : undefined;
         const newSplitX = dx
           ? (pxSplitX + minMaxDelta('x', dx)) / width
           : undefined;
@@ -71,10 +70,9 @@ export const Panels: FC = () => {
         setCursor({
           deltaX: 0,
           deltaY: 0,
-          isDraggingX: false,
-          isDraggingY: false,
         }),
       );
+      setIsDragging({});
     };
     window.addEventListener('mouseup', onMouseUp);
 
@@ -82,7 +80,7 @@ export const Panels: FC = () => {
       window.removeEventListener('mousemove', mouseMove);
       window.removeEventListener('mouseup', onMouseUp);
     };
-  }, [cursor, minMaxDelta, width, height, pxSplitX, pxSplitY]);
+  }, [cursor, minMaxDelta, width, height, pxSplitX, pxSplitY, isDragging]);
 
   useEffect(() => {
     const resize = () =>
@@ -113,7 +111,7 @@ export const Panels: FC = () => {
             height,
             left: pxSplitX + minMaxDelta('x') - padding / 2,
           }}
-          onMouseDownCapture={() => setCursor({...cursor, isDraggingX: true})}
+          onMouseDownCapture={() => setIsDragging({x: true})}
         />
       )}
       {panels.length > 2 && (
@@ -129,7 +127,7 @@ export const Panels: FC = () => {
               top: pxSplitY + minMaxDelta('y') - padding / 2,
               left: panels.length === 3 ? pxSplitX + minMaxDelta('x') : 0,
             }}
-            onMouseDownCapture={() => setCursor({...cursor, isDraggingY: true})}
+            onMouseDownCapture={() => setIsDragging({y: true})}
           />
           <ResizeBar
             className='hover:cursor-move'
@@ -139,9 +137,7 @@ export const Panels: FC = () => {
               top: pxSplitY + minMaxDelta('y') - padding / 2,
               left: pxSplitX + minMaxDelta('x') - padding / 2,
             }}
-            onMouseDownCapture={() =>
-              setCursor({...cursor, isDraggingX: true, isDraggingY: true})
-            }
+            onMouseDownCapture={() => setIsDragging({x: true, y: true})}
           />
         </>
       )}

@@ -186,6 +186,23 @@ const toggleMuted = (_: IpcMainInvokeEvent, clientId: string) => {
   pushClientsUpdate();
 };
 
+const hideAllViews = () => {
+  clients.forEach((client) => {
+    if (client.view) win?.removeBrowserView(client.view);
+  });
+};
+
+const showAllViews = () => {
+  const openClientIds = panelSettings.panels.map((panel) => panel.clientId);
+  clients.forEach((client) => {
+    if (client.view && openClientIds.includes(client.id)) {
+      win?.addBrowserView(client.view);
+    }
+  });
+
+  pushClientsUpdate();
+};
+
 export const registerClientHandlers = () => {
   ipcMain.handle('getClients', () =>
     clients.map((client) => {
@@ -202,4 +219,7 @@ export const registerClientHandlers = () => {
   ipcMain.on('moveClientRight', moveClientRight);
   ipcMain.on('reloadClient', reloadClient);
   ipcMain.on('toggleMuted', toggleMuted);
+
+  ipcMain.on('hideAllViews', hideAllViews);
+  ipcMain.on('showAllViews', showAllViews);
 };

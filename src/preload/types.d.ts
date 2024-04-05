@@ -47,3 +47,7 @@ export type Client = {
   isMuted?: boolean;
   window?: BrowserWindow;
 };
+
+export type Settings = {
+  open?: boolean;
+};

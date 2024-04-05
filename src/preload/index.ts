@@ -38,6 +38,9 @@ const api: API = {
   reloadClient: (clientId) => ipcRenderer.send('reloadClient', clientId),
   toggleMuted: (clientId) => ipcRenderer.send('toggleMuted', clientId),
 
+  hideAllViews: () => ipcRenderer.send('hideAllViews'),
+  showAllViews: () => ipcRenderer.send('showAllViews'),
+
   // update frontend
   pullPanelSettingsUpdate: () => ipcRenderer.invoke('pullPanelSettingsUpdate'),
   pushClientsUpdate: push('pushClientsUpdate'),

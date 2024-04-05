@@ -1,6 +1,6 @@
 import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
-import {Spinner} from '@radix-ui/themes';
 import {type FC, useContext} from 'react';
+import {HashLoader} from 'react-spinners';
 import {twMerge} from 'tailwind-merge';
 import {UpdateStatusContext} from '../provider/update-status-provider';
 
@@ -21,7 +21,7 @@ export const UpdateButton: FC = () => {
     >
       {downloading && (
         <>
-          <Spinner className='mb-2' />
+          <HashLoader color='#fff' size={24} className='mb-2' />
           <p>Update available</p>
           <p>Download in progress</p>
         </>

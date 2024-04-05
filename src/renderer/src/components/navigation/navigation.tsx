@@ -1,8 +1,10 @@
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
+import Cog6ToothIcon from '@heroicons/react/24/solid/Cog6ToothIcon';
 import {useContext, type FC, useState} from 'react';
 import {ClientsContext} from '../provider/clients-provider';
 import {PanelSettingsContext} from '../provider/panel-settings-provider';
+import {SettingsContext} from '../provider/settings-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
 import {PanelControl} from './panel-control';
@@ -11,6 +13,7 @@ import {UpdateButton} from './update-button';
 export const Navigation: FC = () => {
   const panelSettings = useContext(PanelSettingsContext);
   const clients = useContext(ClientsContext);
+  const settings = useContext(SettingsContext);
 
   const [pinnedNavigation, setPinnedNavigation] = useState<boolean>(false);
 
@@ -60,6 +63,12 @@ export const Navigation: FC = () => {
           <NavigationDivider />
           <ClientNavigation clients={clients} panelSettings={panelSettings} />
           <div className='ml-auto flex items-center gap-4'>
+            <button
+              className='hover:bg-gray-lighter rounded-full p-px'
+              onClick={() => settings?.openSettings()}
+            >
+              <Cog6ToothIcon className='w-5' />
+            </button>
             <UpdateButton />
           </div>
         </div>

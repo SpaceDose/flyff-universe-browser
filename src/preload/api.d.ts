@@ -23,6 +23,9 @@ export interface API {
   reloadClient: (clientId: string) => void;
   toggleMuted: (clientId: string) => void;
 
+  hideAllViews: () => void;
+  showAllViews: () => void;
+
   // update frontend
   pullPanelSettingsUpdate: () => Promise<boolean>;
   pushPanelSettingsUpdate: (

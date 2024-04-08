@@ -1,11 +1,13 @@
+import {type Playfield, type Client, type Settings} from './types';
+
 export interface API {
   // database
   getStoreValue: (key: string) => Promise<unknown>;
   setStoreValue: (key: string, value: unknown) => void;
 
   //panel
-  getPanelSettings: () => Promise<PanelSettings>;
-  setPanelSettings: (settings: PanelSettings) => Promise<boolean>;
+  getPlayfield: () => Promise<Playfield>;
+  setPlayfield: (playfield: Playfield) => Promise<boolean>;
 
   addPanel: () => void;
   removePanel: () => void;
@@ -23,16 +25,22 @@ export interface API {
   reloadClient: (clientId: string) => void;
   toggleMuted: (clientId: string) => void;
 
+  // settings
+  getSettings: () => Promise<Settings>;
+  setSettings: (settings: Settings) => void;
   hideAllViews: () => void;
   showAllViews: () => void;
 
   // update frontend
-  pullPanelSettingsUpdate: () => Promise<boolean>;
-  pushPanelSettingsUpdate: (
-    callback: (event: unknown, settings: PanelSettings) => void,
+  pullPlayfieldUpdate: () => Promise<boolean>;
+  pushPlayfieldUpdate: (
+    callback: (event: unknown, playfield: Playfield) => void,
   ) => () => void;
   pushClientsUpdate: (
     callback: (event: unknown, clients: Client[]) => void,
+  ) => () => void;
+  pushSettingsUpdate: (
+    callback: (event: unknown, settings: Settings) => void,
   ) => () => void;
 
   // handle app updates

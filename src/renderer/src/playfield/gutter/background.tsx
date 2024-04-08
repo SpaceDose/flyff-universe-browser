@@ -2,9 +2,9 @@ import {type FC, useContext} from 'react';
 import Logo from '../../assets/logo.png';
 import TutorialWithClients from '../../assets/tutorial-with-clients.svg';
 import TutorialWithoutClients from '../../assets/tutorial-without-clients.svg';
-import {ClientsContext} from '../provider/clients-provider';
+import {ClientsContext} from '../../provider/clients-provider';
 
-export const PanelBackground: FC = () => {
+export const Background: FC = () => {
   const clients = useContext(ClientsContext);
 
   return (

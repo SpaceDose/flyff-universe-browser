@@ -1,13 +1,13 @@
 import {type FC, useState} from 'react';
 import {twMerge} from 'tailwind-merge';
-import {type Client, type PanelSettings} from '../../../../../preload/types';
+import {type Client, type Playfield} from '../../../../../preload/types';
 import {panelColors} from '../panel-colors';
 import {ClientContextMenu} from './client-context-menu';
 import {PanelSelect} from './panel-select';
 
 type ClientTileProps = {
   client: Client;
-  panelSettings: PanelSettings;
+  panelSettings: Playfield;
 };
 
 export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {

@@ -1,6 +1,6 @@
 import {type FC, useState, useCallback, useEffect, useContext} from 'react';
-import {PanelSettingsContext} from '../provider/panel-settings-provider';
-import {PanelBackground} from './panel-background';
+import {PlayfieldContext} from '../../provider/playfield-provider';
+import {Background} from './background';
 import {ResizeBar} from './resize-bar';
 
 const {min, max} = Math;
@@ -10,9 +10,15 @@ export type Cursor = {
   deltaY: number;
 };
 
-export const Panels: FC = () => {
-  const {splitX, splitY, padding, showNavigation, navigationHeight, panels} =
-    useContext(PanelSettingsContext);
+export const Gutter: FC = () => {
+  const {
+    splitX,
+    splitY,
+    padding,
+    showNavigation,
+    navigationHeight,
+    panels: panels,
+  } = useContext(PlayfieldContext);
 
   const [isDragging, setIsDragging] = useState<{x?: boolean; y?: boolean}>({});
   const [cursor, setCursor] = useState<Cursor>({deltaX: 0, deltaY: 0});
@@ -22,6 +28,8 @@ export const Panels: FC = () => {
   }>({width: 0, height: 0});
   const pxSplitX = splitX * width;
   const pxSplitY = splitY * height;
+
+  useEffect(() => window.api.showAllViews(), []);
 
   const minMaxDelta = useCallback(
     (axis: 'x' | 'y', value?: number) => {
@@ -66,7 +74,7 @@ export const Panels: FC = () => {
     window.addEventListener('mousemove', mouseMove);
 
     const onMouseUp = () => {
-      window.api.pullPanelSettingsUpdate().then(() =>
+      window.api.pullPlayfieldUpdate().then(() =>
         setCursor({
           deltaX: 0,
           deltaY: 0,
@@ -100,8 +108,8 @@ export const Panels: FC = () => {
   }, [navigationHeight, padding, showNavigation]);
 
   return (
-    <div className='text-green-500 relative w-full grow overflow-hidden'>
-      <PanelBackground />
+    <div className='relative w-full grow overflow-hidden'>
+      <Background />
 
       {panels.length > 1 && (
         <ResizeBar

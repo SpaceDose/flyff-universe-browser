@@ -10,19 +10,20 @@ declare global {
 }
 
 export type Profile = {
-  windowSettings: WindowSettings;
-  panelSettings: PanelSettings;
+  window: Window;
+  playfield: Playfield;
+  settings: Settings;
   clients: Client[];
 };
 
-export type WindowSettings = {
+export type Window = {
   width: number;
   height: number;
   x?: number;
   y?: number;
 };
 
-export type PanelSettings = {
+export type Playfield = {
   panels: Panel[];
   splitX: number;
   splitY: number;
@@ -49,5 +50,5 @@ export type Client = {
 };
 
 export type Settings = {
-  open?: boolean;
+  focusOnHover: boolean;
 };

@@ -17,17 +17,16 @@ const api: API = {
   setStoreValue: (key, value) => ipcRenderer.send('setStoreValue', key, value),
 
   // panel
-  getPanelSettings: () => ipcRenderer.invoke('getPanelSettings'),
-  setPanelSettings: (settings) =>
-    ipcRenderer.invoke('setPanelSettings', settings),
+  getPlayfield: () => ipcRenderer.invoke('getPlayfield'),
+  setPlayfield: (playfield) => ipcRenderer.invoke('setPlayfield', playfield),
 
-  addPanel: () => ipcRenderer.invoke('addPanel'),
-  removePanel: () => ipcRenderer.invoke('removePanel'),
+  addPanel: () => ipcRenderer.send('addPanel'),
+  removePanel: () => ipcRenderer.send('removePanel'),
   setSplits: (x, y) => ipcRenderer.invoke('setSplits', x, y),
 
   // client
   getClients: () => ipcRenderer.invoke('getClients'),
-  addClient: () => ipcRenderer.invoke('addClient'),
+  addClient: () => ipcRenderer.send('addClient'),
   removeClient: (clientId) => ipcRenderer.send('removeClient', clientId),
   openClient: (clientId, panelIndex) =>
     ipcRenderer.send('openClient', clientId, panelIndex),
@@ -41,10 +40,15 @@ const api: API = {
   hideAllViews: () => ipcRenderer.send('hideAllViews'),
   showAllViews: () => ipcRenderer.send('showAllViews'),
 
+  // user-settings
+  getSettings: () => ipcRenderer.invoke('getSettings'),
+  setSettings: (settings) => ipcRenderer.send('setSettings', settings),
+
   // update frontend
-  pullPanelSettingsUpdate: () => ipcRenderer.invoke('pullPanelSettingsUpdate'),
+  pullPlayfieldUpdate: () => ipcRenderer.invoke('pullPlayfieldUpdate'),
   pushClientsUpdate: push('pushClientsUpdate'),
-  pushPanelSettingsUpdate: push('pushPanelSettingsUpdate'),
+  pushPlayfieldUpdate: push('pushPlayfieldUpdate'),
+  pushSettingsUpdate: push('pushSettingsUpdate'),
 
   // handle app updates
   installUpdate: () => ipcRenderer.invoke('installUpdate'),

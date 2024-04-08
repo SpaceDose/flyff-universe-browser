@@ -1,11 +1,11 @@
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {type FC} from 'react';
-import {type Client, type PanelSettings} from '../../../../../preload/types';
+import {type Client, type Playfield} from '../../../../../preload/types';
 import {ClientTile} from './client-tile';
 
 type ClientNavigationProps = {
   clients: Client[];
-  panelSettings: PanelSettings;
+  panelSettings: Playfield;
 };
 
 export const ClientNavigation: FC<ClientNavigationProps> = ({

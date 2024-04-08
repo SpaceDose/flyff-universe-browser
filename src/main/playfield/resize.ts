@@ -1,13 +1,12 @@
 import {win} from '..';
 import {clients} from '../clients';
-import {panelSettings} from './panels';
+import {playfield} from './panels';
 
 const {floor, ceil} = Math;
 
 const getClientViewFromPanel = (index: number) =>
   clients.find(
-    (c) =>
-      c.id === panelSettings.panels.find((p) => p.index === index)?.clientId,
+    (c) => c.id === playfield.panels.find((p) => p.index === index)?.clientId,
   )?.view;
 
 const ws = {
@@ -16,13 +15,13 @@ const ws = {
   padding: 0,
 };
 
-const getLeftWidth = () => ceil(panelSettings.splitX * ws.width - ws.padding);
+const getLeftWidth = () => ceil(playfield.splitX * ws.width - ws.padding);
 const getRightWidth = () =>
-  ceil(ws.width - panelSettings.splitX * ws.width - ws.padding);
+  ceil(ws.width - playfield.splitX * ws.width - ws.padding);
 
-const getTopHeight = () => ceil(panelSettings.splitY * ws.height - ws.padding);
+const getTopHeight = () => ceil(playfield.splitY * ws.height - ws.padding);
 const getBottomHeight = () =>
-  ceil(ws.height - panelSettings.splitY * ws.height - ws.padding);
+  ceil(ws.height - playfield.splitY * ws.height - ws.padding);
 
 export const resizePanels = () => {
   if (!win) throw Error('win is not initialized...');
@@ -30,14 +29,14 @@ export const resizePanels = () => {
   const bounds = win.getContentBounds();
   ws.height = floor(
     bounds.height -
-      (panelSettings.showNavigation
-        ? panelSettings.navigationHeight
-        : panelSettings.padding),
+      (playfield.showNavigation
+        ? playfield.navigationHeight
+        : playfield.padding),
   );
   ws.width = bounds.width;
-  ws.padding = floor(panelSettings.padding / 2);
+  ws.padding = floor(playfield.padding / 2);
 
-  const activePanels = panelSettings.panels.filter((panel) => panel.active);
+  const activePanels = playfield.panels.filter((panel) => panel.active);
   switch (activePanels.length) {
     case 0:
       break;

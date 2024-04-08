@@ -3,15 +3,16 @@ import {electronApp, optimizer, is} from '@electron-toolkit/utils';
 import {app, shell, BrowserWindow} from 'electron';
 import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
-import {registerPanelHandlers} from './panels/panels';
-import {resizePanels} from './panels/resize';
+import {registerPanelHandlers} from './playfield/panels';
+import {resizePanels} from './playfield/resize';
+import {registerSettingsHandlers} from './settings';
 import {registerUpdateHandlers, update} from './update';
 import {keyboardShortcuts, loadSavedPanels} from './utils';
 
 export let win: BrowserWindow | null = null;
 
 function createWindow(): void {
-  const {width, height, x, y} = db.get('windowSettings', {
+  const {width, height, x, y} = db.get('window', {
     width: 1024,
     height: 720,
   });
@@ -32,13 +33,13 @@ function createWindow(): void {
   win.webContents.on('before-input-event', keyboardShortcuts);
 
   win?.on('maximize', () => {
-    if (win) db.set('windowSettings', win.getBounds());
+    if (win) db.set('window', win.getBounds());
   });
   win?.on('moved', () => {
-    if (win) db.set('windowSettings', win.getBounds());
+    if (win) db.set('window', win.getBounds());
   });
   win?.on('resized', () => {
-    if (win) db.set('windowSettings', win.getBounds());
+    if (win) db.set('window', win.getBounds());
   });
   win?.on('resize', () => {
     resizePanels();
@@ -75,6 +76,7 @@ function createWindow(): void {
   registerDatabaseHandlers();
   registerPanelHandlers();
   registerClientHandlers();
+  registerSettingsHandlers();
 }
 
 app.whenReady().then(() => {

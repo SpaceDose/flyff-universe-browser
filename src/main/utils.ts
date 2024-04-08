@@ -1,7 +1,8 @@
 import {BrowserView, session} from 'electron';
 import {_openClient, clients, pushClientsUpdate} from './clients';
-import {panelSettings, pushPanelSettingsUpdate} from './panels/panels';
-import {resizePanels} from './panels/resize';
+import {playfield, pushPlayfieldUpdate} from './playfield/panels';
+import {resizePanels} from './playfield/resize';
+import {settings} from './settings';
 import {win} from '.';
 
 const flyffUniverseURL =
@@ -15,8 +16,8 @@ export const keyboardShortcuts: (
     event.preventDefault();
     const newState = !win?.isFullScreen();
     win?.setFullScreen(newState);
-    panelSettings.isFullscreen = newState;
-    pushPanelSettingsUpdate();
+    playfield.isFullscreen = newState;
+    pushPlayfieldUpdate();
   }
 
   if (
@@ -25,7 +26,7 @@ export const keyboardShortcuts: (
     (input.key === 'ArrowLeft' || input.key === 'ArrowRight')
   ) {
     event.preventDefault();
-    const activePanels = panelSettings.panels.filter((p) => p.active);
+    const activePanels = playfield.panels.filter((p) => p.active);
     if (activePanels.length === 1) {
       const activeClient = clients.find(
         (c) => c.id === activePanels[0].clientId,
@@ -72,6 +73,8 @@ export const createBrowserView: (
   view.webContents.on('before-input-event', keyboardShortcuts);
 
   view.webContents.addListener('cursor-changed', async () => {
+    if (!settings.focusOnHover) return;
+
     // Focus the BrowserView on mouse enter.
     if (
       !view.webContents.isFocused() &&
@@ -103,7 +106,7 @@ export const createBrowserView: (
 };
 
 export const loadSavedPanels = () => {
-  panelSettings.panels.forEach((panel) => {
+  playfield.panels.forEach((panel) => {
     if (panel.active && panel.clientId) {
       const client = clients.find((client) => client.id === panel.clientId);
       if (client) {
@@ -113,6 +116,6 @@ export const loadSavedPanels = () => {
       }
     }
   });
-  pushPanelSettingsUpdate();
+  pushPlayfieldUpdate();
   resizePanels();
 };

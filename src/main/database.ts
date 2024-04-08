@@ -3,7 +3,7 @@ import Store, {type Schema} from 'electron-store';
 import {type Profile} from '../preload/types';
 
 export const schema: Schema<Profile> = {
-  windowSettings: {
+  window: {
     type: 'object',
     properties: {
       width: {
@@ -20,7 +20,7 @@ export const schema: Schema<Profile> = {
       },
     },
   },
-  panelSettings: {
+  playfield: {
     type: 'object',
     properties: {
       panels: {
@@ -53,6 +53,14 @@ export const schema: Schema<Profile> = {
         type: 'number',
       },
       showNavigation: {
+        type: 'boolean',
+      },
+    },
+  },
+  settings: {
+    type: 'object',
+    properties: {
+      focusOnHover: {
         type: 'boolean',
       },
     },

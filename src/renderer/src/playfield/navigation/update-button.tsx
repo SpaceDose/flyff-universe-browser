@@ -2,7 +2,7 @@ import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import {type FC, useContext} from 'react';
 import {HashLoader} from 'react-spinners';
 import {twMerge} from 'tailwind-merge';
-import {UpdateStatusContext} from '../provider/update-status-provider';
+import {UpdateStatusContext} from '../../provider/update-status-provider';
 
 export const UpdateButton: FC = () => {
   const {downloading, readyToInstall} = useContext(UpdateStatusContext);

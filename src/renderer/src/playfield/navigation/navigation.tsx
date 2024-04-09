@@ -7,7 +7,7 @@ import {ClientsContext} from '../../provider/clients-provider';
 import {PlayfieldContext} from '../../provider/playfield-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
-import {PanelControl} from './panel-control';
+import {PlayfieldControl} from './playfield-control';
 import {UpdateButton} from './update-button';
 
 export const Navigation: FC = () => {
@@ -56,7 +56,7 @@ export const Navigation: FC = () => {
 
       {showNavigation && (
         <div className='flex grow gap-4 px-4 py-2'>
-          <PanelControl panels={panelSettings.panels} />
+          <PlayfieldControl panels={panelSettings.panels} />
           <NavigationDivider />
           <ClientNavigation clients={clients} panelSettings={panelSettings} />
           <div className='ml-auto flex items-center gap-4'>

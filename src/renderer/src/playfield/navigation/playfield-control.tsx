@@ -5,14 +5,15 @@ import {twMerge} from 'tailwind-merge';
 import {type Panel} from '../../../../preload/types';
 import {PanelSelect} from './client-navigation/panel-select';
 
-type UnlockPanelProps = {
+type PlayfieldControlProps = {
   panels: Panel[];
 };
 
-export const PanelControl: FC<UnlockPanelProps> = ({panels}) => {
+export const PlayfieldControl: FC<PlayfieldControlProps> = ({panels}) => {
   const addPanel = () => {
     window.api.addPanel();
   };
+
   const removePanel = () => {
     window.api.removePanel();
   };

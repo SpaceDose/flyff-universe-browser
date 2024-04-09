@@ -3,7 +3,7 @@ import {electronApp, optimizer, is} from '@electron-toolkit/utils';
 import {app, shell, BrowserWindow} from 'electron';
 import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
-import {registerPanelHandlers} from './playfield/panels';
+import {registerPanelHandlers} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
 import {registerSettingsHandlers} from './settings';
 import {registerUpdateHandlers, update} from './update';

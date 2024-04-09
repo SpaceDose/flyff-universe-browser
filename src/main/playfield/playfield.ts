@@ -83,8 +83,8 @@ const pullPlayfieldUpdate = () => {
 export const registerPanelHandlers = () => {
   ipcMain.handle('getPlayfield', () => getPlayfieldWithoutInactivePanels());
   ipcMain.handle('setPlayfield', setPlayfield);
-  ipcMain.handle('addPanel', addPanel);
-  ipcMain.handle('removePanel', removePanel);
+  ipcMain.on('addPanel', addPanel);
+  ipcMain.on('removePanel', removePanel);
   ipcMain.handle('setSplits', setSplits);
   ipcMain.handle('pullPlayfieldUpdate', pullPlayfieldUpdate);
 };

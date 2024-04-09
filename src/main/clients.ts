@@ -2,7 +2,7 @@ import {type IpcMainInvokeEvent, ipcMain, BrowserWindow} from 'electron';
 import {v4} from 'uuid';
 import {type Client} from '../preload/types';
 import {db} from './database';
-import {playfield, pushPlayfieldUpdate} from './playfield/panels';
+import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {createBrowserView} from './utils';
 import {win} from '.';
 

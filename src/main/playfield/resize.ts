@@ -1,6 +1,6 @@
 import {win} from '..';
 import {clients} from '../clients';
-import {playfield} from './panels';
+import {playfield} from './playfield';
 
 const {floor, ceil} = Math;
 

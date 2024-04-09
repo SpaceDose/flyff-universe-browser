@@ -63,6 +63,9 @@ export const schema: Schema<Profile> = {
       focusOnHover: {
         type: 'boolean',
       },
+      openNavigationOnHover: {
+        type: 'boolean',
+      },
     },
   },
   clients: {

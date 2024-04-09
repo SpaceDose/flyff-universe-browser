@@ -1,3 +1,9 @@
+### v0.0.8
+
+-   Added an option to disable opening the client navigation on hover while in fullscreen.
+
+---
+
 ### v0.0.7
 
 -   Added an interface to change settings.

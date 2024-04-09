@@ -24,6 +24,18 @@ export const GeneralSettings: FC = () => {
             })
           }
         />,
+        <Switch
+          key={1}
+          label='Open client navigation on hover'
+          description='While in fullscreen, open the client navigation at the bottom on mouse hover.'
+          defaultChecked={settings?.openNavigationOnHover}
+          onChange={(e) =>
+            window.api.setSettings({
+              ...settings,
+              openNavigationOnHover: e.target.checked,
+            })
+          }
+        />,
       ]}
     />
   );

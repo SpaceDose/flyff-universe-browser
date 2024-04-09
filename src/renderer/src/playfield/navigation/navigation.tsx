@@ -9,39 +9,43 @@ import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
 import {PlayfieldControl} from './playfield-control';
 import {UpdateButton} from './update-button';
+import {useSettings} from '../../provider/settings-provider';
 
 export const Navigation: FC = () => {
   const navigate = useNavigate();
-  const panelSettings = useContext(PlayfieldContext);
+  const playfield = useContext(PlayfieldContext);
+  const {showNavigation, padding, navigationHeight, isFullscreen, panels} =
+    playfield;
   const clients = useContext(ClientsContext);
+  const settings = useSettings();
 
   const [pinnedNavigation, setPinnedNavigation] = useState<boolean>(false);
 
-  const {showNavigation, padding, navigationHeight, isFullscreen} =
-    panelSettings;
+  const enableOpenOnHover =
+    isFullscreen && !pinnedNavigation && settings?.openNavigationOnHover;
 
   const setShowNavigation = (showNavigation: boolean) => {
-    window.api.setPlayfield({...panelSettings, showNavigation});
+    window.api.setPlayfield({...playfield, showNavigation});
   };
 
   return (
     <div
       className='flex w-full flex-col overflow-hidden bg-gray'
       onMouseEnter={() => {
-        if (isFullscreen && !pinnedNavigation) setShowNavigation(true);
+        if (enableOpenOnHover) setShowNavigation(true);
       }}
       onMouseLeave={() => {
-        if (isFullscreen && !pinnedNavigation) setShowNavigation(false);
+        if (enableOpenOnHover) setShowNavigation(false);
       }}
       style={{height: showNavigation ? navigationHeight : padding}}
     >
       <button
         onClick={() => {
-          if (isFullscreen) {
+          if (enableOpenOnHover) {
             setPinnedNavigation(!pinnedNavigation);
           } else {
-            setPinnedNavigation(!panelSettings.showNavigation);
-            setShowNavigation(!panelSettings.showNavigation);
+            setPinnedNavigation(!showNavigation);
+            setShowNavigation(!showNavigation);
           }
         }}
         className='flex w-full items-center justify-center bg-black'
@@ -56,9 +60,9 @@ export const Navigation: FC = () => {
 
       {showNavigation && (
         <div className='flex grow gap-4 px-4 py-2'>
-          <PlayfieldControl panels={panelSettings.panels} />
+          <PlayfieldControl panels={panels} />
           <NavigationDivider />
-          <ClientNavigation clients={clients} panelSettings={panelSettings} />
+          <ClientNavigation clients={clients} playfield={playfield} />
           <div className='ml-auto flex items-center gap-4'>
             <button
               className='rounded-full p-px hover:bg-gray-lighter'

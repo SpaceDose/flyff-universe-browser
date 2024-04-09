@@ -7,6 +7,7 @@ import {win} from '.';
 
 export const settings: Settings = db.get('settings', {
   focusOnHover: true,
+  openNavigationOnHover: true,
 });
 
 const pushSettingsUpdate = () => {
@@ -14,8 +15,12 @@ const pushSettingsUpdate = () => {
   win?.webContents.send('pushSettingsUpdate', settings);
 };
 
-const setSettings = (_: IpcMainInvokeEvent, {focusOnHover}: Settings) => {
+const setSettings = (
+  _: IpcMainInvokeEvent,
+  {focusOnHover, openNavigationOnHover}: Settings,
+) => {
   settings.focusOnHover = focusOnHover;
+  settings.openNavigationOnHover = openNavigationOnHover;
   pushSettingsUpdate();
 };
 

@@ -1,6 +1,6 @@
 import XCircleIcon from '@heroicons/react/24/outline/XCircleIcon';
 import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
-import {type FC, type ReactNode} from 'react';
+import {Fragment, type FC, type ReactNode} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 type SettingsPageProps = {
@@ -28,12 +28,12 @@ export const SettingsPage: FC<SettingsPageProps> = ({title, options}) => {
 
         <div className='flex flex-col gap-8 pt-12'>
           {options.map((option, index) => (
-            <>
+            <Fragment key={index}>
               {option}
               {index < options.length - 1 && (
                 <hr className='border-gray-lighter' />
               )}
-            </>
+            </Fragment>
           ))}
         </div>
       </div>

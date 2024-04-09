@@ -5,22 +5,18 @@ import {ClientTile} from './client-tile';
 
 type ClientNavigationProps = {
   clients: Client[];
-  panelSettings: Playfield;
+  playfield: Playfield;
 };
 
 export const ClientNavigation: FC<ClientNavigationProps> = ({
   clients,
-  panelSettings,
+  playfield,
 }) => (
   <div className='flex h-full gap-2'>
     {clients
       .sort((a, b) => a.order - b.order)
       .map((client) => (
-        <ClientTile
-          key={client.id}
-          client={client}
-          panelSettings={panelSettings}
-        />
+        <ClientTile key={client.id} client={client} panelSettings={playfield} />
       ))}
     <button
       onClick={() => window.api.addClient()}

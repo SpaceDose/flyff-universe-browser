@@ -51,4 +51,5 @@ export type Client = {
 
 export type Settings = {
   focusOnHover: boolean;
+  openNavigationOnHover: boolean;
 };

@@ -1,4 +1,5 @@
 import XCircleIcon from '@heroicons/react/24/outline/XCircleIcon';
+import {OverlayScrollbarsComponent} from 'overlayscrollbars-react';
 import {type FC, type ReactNode} from 'react';
 import {useNavigate} from 'react-router-dom';
 
@@ -11,7 +12,7 @@ export const SettingsPage: FC<SettingsPageProps> = ({title, options}) => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex grow flex-col overflow-y-scroll bg-gray-dark p-8'>
+    <OverlayScrollbarsComponent className='flex grow flex-col bg-gray-dark p-8'>
       <div className='flex w-[32rem] flex-col'>
         <div className='flex items-center justify-between font-bold'>
           <h1 className='text-xl'>{title}</h1>
@@ -36,6 +37,6 @@ export const SettingsPage: FC<SettingsPageProps> = ({title, options}) => {
           ))}
         </div>
       </div>
-    </div>
+    </OverlayScrollbarsComponent>
   );
 };

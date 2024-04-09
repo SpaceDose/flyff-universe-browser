@@ -14,7 +14,7 @@ export const SettingsLink: FC<SettingsLinkProps> = ({label, to}) => {
     <Link
       to={`/settings/${to}`}
       className={twMerge(
-        'flex w-48 select-none rounded bg-gray px-2 py-1 hover:bg-gray-light',
+        'flex w-32 select-none rounded bg-gray px-2 py-1 hover:bg-gray-light',
         pathname.endsWith(to) && 'cursor-default bg-blue hover:bg-blue',
       )}
     >

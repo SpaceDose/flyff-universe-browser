@@ -9,6 +9,8 @@ import {Changelog} from './settings/changelog';
 import {GeneralSettings} from './settings/general-settings';
 import {Settings} from './settings/settings';
 
+import 'overlayscrollbars/overlayscrollbars.css';
+
 import '@fontsource/nunito/200.css';
 import '@fontsource/nunito/300.css';
 import '@fontsource/nunito/400.css';

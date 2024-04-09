@@ -5,11 +5,11 @@ import {useContext, type FC, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ClientsContext} from '../../provider/clients-provider';
 import {PlayfieldContext} from '../../provider/playfield-provider';
+import {useSettings} from '../../provider/settings-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
 import {PlayfieldControl} from './playfield-control';
 import {UpdateButton} from './update-button';
-import {useSettings} from '../../provider/settings-provider';
 
 export const Navigation: FC = () => {
   const navigate = useNavigate();

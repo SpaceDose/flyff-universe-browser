@@ -21,10 +21,7 @@ export const Navigation: FC = () => {
     panelSettings;
 
   const setShowNavigation = (showNavigation: boolean) => {
-    window.api.setPlayfield({
-      ...panelSettings,
-      showNavigation: showNavigation,
-    });
+    window.api.setPlayfield({...panelSettings, showNavigation});
   };
 
   return (
@@ -64,8 +61,8 @@ export const Navigation: FC = () => {
           <ClientNavigation clients={clients} panelSettings={panelSettings} />
           <div className='ml-auto flex items-center gap-4'>
             <button
-              className='hover:bg-gray-lighter rounded-full p-px'
-              onClick={() => navigate('settings')}
+              className='rounded-full p-px hover:bg-gray-lighter'
+              onClick={() => navigate('/settings/general')}
             >
               <Cog6ToothIcon className='w-5' />
             </button>

@@ -11,13 +11,13 @@ export const Background: FC = () => {
     <>
       <img
         src={Logo}
-        className='p-4 min-w-max pointer-events-none select-none'
+        className='pointer-events-none min-w-max select-none p-4'
       />
       <img
         src={
           clients.length === 0 ? TutorialWithoutClients : TutorialWithClients
         }
-        className='h-48 absolute bottom-4 left-14 pointer-events-none min-w-max select-none'
+        className='pointer-events-none absolute bottom-4 left-14 h-48 min-w-max select-none'
       />
     </>
   );

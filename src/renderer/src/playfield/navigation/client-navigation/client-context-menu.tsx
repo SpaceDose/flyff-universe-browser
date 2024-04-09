@@ -19,7 +19,7 @@ const MenuButton: FC<{
 }> = ({icon, onClick, hide}) =>
   !hide ? (
     <button
-      className='hover:bg-gray-lighter rounded-full p-px w-5'
+      className='w-5 rounded-full p-px hover:bg-gray-lighter'
       onClick={onClick}
     >
       {icon}
@@ -29,11 +29,11 @@ const MenuButton: FC<{
   );
 
 const Col: FC<{children?: ReactNode}> = ({children}) => (
-  <div className='flex-col flex justify-between'>{children}</div>
+  <div className='flex flex-col justify-between'>{children}</div>
 );
 
 export const ClientContextMenu: FC<ClientContextMenuProps> = ({client}) => (
-  <div className='h-full bg-gray-darker px-1.5 py-1 grid grid-cols-4'>
+  <div className='grid h-full grid-cols-4 bg-gray-darker px-1.5 py-1'>
     <Col>
       <MenuButton
         onClick={() => window.api.reloadClient(client.id)}

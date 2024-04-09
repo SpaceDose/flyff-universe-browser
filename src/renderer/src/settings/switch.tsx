@@ -20,10 +20,10 @@ export const Switch: FC<SwitchProps> = ({
     </div>
     <input
       type='checkbox'
-      className='hidden peer'
+      className='peer hidden'
       defaultChecked={defaultChecked}
       onChange={onChange}
     />
-    <div className="relative shrink-0 w-11 h-6 rounded-full peer dark:bg-gray-light peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue" />
+    <div className="peer relative h-6 w-11 shrink-0 rounded-full after:absolute after:start-[2px] after:top-[2px] after:size-5 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:bg-gray-light" />
   </label>
 );

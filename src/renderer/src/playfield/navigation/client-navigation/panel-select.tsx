@@ -30,7 +30,7 @@ export const PanelSelect: FC<PanelSelect> = ({
             if (onClick) onClick(panel.index);
           }}
           className={twMerge(
-            'group shadow border border-transparent bg-gray-darker',
+            'group border border-transparent bg-gray-darker shadow',
             usedAsPanelControl ? 'cursor-default' : 'rounded',
             panels.length < 2 && 'col-span-2',
             panels.length % 2 && 'first:row-span-2',

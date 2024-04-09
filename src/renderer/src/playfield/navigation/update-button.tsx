@@ -12,7 +12,7 @@ export const UpdateButton: FC = () => {
   return (
     <button
       className={twMerge(
-        'w-36 flex-col p-2 flex items-center justify-center text-xs gap-px',
+        'flex w-36 flex-col items-center justify-center gap-px p-2 text-xs',
         readyToInstall ? 'hover:bg-gray-light' : 'cursor-default',
       )}
       onClick={() => {
@@ -30,9 +30,9 @@ export const UpdateButton: FC = () => {
       {readyToInstall && (
         <>
           <div className='relative'>
-            <ArrowPathIcon className='w-5 mb-1.5' />
-            <div className='absolute rounded-full bg-blue-light size-2 -top-1 -right-1 animate-ping' />
-            <div className='absolute rounded-full bg-blue-light size-2 -top-1 -right-1' />
+            <ArrowPathIcon className='mb-1.5 w-5' />
+            <div className='absolute -right-1 -top-1 size-2 animate-ping rounded-full bg-blue-light' />
+            <div className='absolute -right-1 -top-1 size-2 rounded-full bg-blue-light' />
           </div>
           <p>Download ready</p>
           <p>Restart now!</p>

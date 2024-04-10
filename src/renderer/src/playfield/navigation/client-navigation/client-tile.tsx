@@ -12,7 +12,7 @@ type ClientTileProps = {
 
 export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
   const [showContextMenu, setShowContextMenu] = useState<boolean>(false);
-  const {id, isOpenInNewWindow, character, order} = client;
+  const {id, isOpenInNewWindow, name} = client;
   const activePanel = panelSettings.panels.find(
     (panel) => panel.clientId === client.id,
   );
@@ -42,9 +42,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
             )}
             onClick={() => window.api.closeWindow(client.id)}
           >
-            <p className='truncate group-hover:hidden'>
-              {character ?? `Panel ${order}`}
-            </p>
+            <p className='truncate group-hover:hidden'>{name ?? 'Unnamed'}</p>
             <p className='hidden group-hover:flex'>Close Window</p>
           </button>
 

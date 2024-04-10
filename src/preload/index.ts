@@ -26,14 +26,16 @@ const api: API = {
 
   // client
   getClients: () => ipcRenderer.invoke('getClients'),
+  reorderClients: (orderedClients) =>
+    ipcRenderer.send('reorderClients', orderedClients),
   addClient: () => ipcRenderer.send('addClient'),
   removeClient: (clientId) => ipcRenderer.send('removeClient', clientId),
   openClient: (clientId, panelIndex) =>
     ipcRenderer.send('openClient', clientId, panelIndex),
   openWindow: (clientId) => ipcRenderer.send('openWindow', clientId),
   closeWindow: (clientId) => ipcRenderer.send('closeWindow', clientId),
-  moveClientLeft: (clientId) => ipcRenderer.send('moveClientLeft', clientId),
-  moveClientRight: (clientId) => ipcRenderer.send('moveClientRight', clientId),
+  renameClient: (clientId, name) =>
+    ipcRenderer.send('renameClient', clientId, name),
   reloadClient: (clientId) => ipcRenderer.send('reloadClient', clientId),
   toggleMuted: (clientId) => ipcRenderer.send('toggleMuted', clientId),
 

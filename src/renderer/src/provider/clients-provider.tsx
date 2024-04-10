@@ -4,6 +4,7 @@ import {
   type FC,
   useState,
   useEffect,
+  useContext,
 } from 'react';
 import {type Client} from '../../../preload/types';
 
@@ -11,7 +12,12 @@ type ClientsProviderProps = {
   children: ReactNode;
 };
 
-export const ClientsContext = createContext<Client[]>([]);
+const ClientsContext = createContext<{
+  clients: Client[];
+  setClients: (clients: Client[]) => void;
+}>({clients: [], setClients: () => {}});
+
+export const useClients = () => useContext(ClientsContext);
 
 export const ClientsProvider: FC<ClientsProviderProps> = ({children}) => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -31,7 +37,7 @@ export const ClientsProvider: FC<ClientsProviderProps> = ({children}) => {
   }, []);
 
   return (
-    <ClientsContext.Provider value={clients}>
+    <ClientsContext.Provider value={{clients, setClients}}>
       {children}
     </ClientsContext.Provider>
   );

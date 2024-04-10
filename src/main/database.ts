@@ -76,11 +76,8 @@ export const schema: Schema<Profile> = {
         id: {
           type: 'string',
         },
-        character: {
+        name: {
           type: 'string',
-        },
-        order: {
-          type: 'number',
         },
         isOpenInNewWindow: {
           type: 'boolean',

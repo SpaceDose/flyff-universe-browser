@@ -6,6 +6,7 @@ import {PlayfieldProvider} from './provider/playfield-provider';
 import {SettingsProvider} from './provider/settings-provider';
 import {UpdateStatusProvider} from './provider/update-status-provider';
 import {Changelog} from './settings/changelog';
+import {ClientSettings} from './settings/client-settings/client-settings';
 import {GeneralSettings} from './settings/general-settings';
 import {Settings} from './settings/settings';
 
@@ -32,6 +33,10 @@ const router = createHashRouter([
       {
         path: 'general',
         element: <GeneralSettings />,
+      },
+      {
+        path: 'clients',
+        element: <ClientSettings />,
       },
       {
         path: 'changelog',

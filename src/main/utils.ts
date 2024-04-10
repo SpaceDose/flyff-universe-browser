@@ -33,9 +33,9 @@ export const keyboardShortcuts: (
       );
 
       if (activeClient) {
-        const clientsWithoutOpenWindows = clients
-          .filter((c) => !c.isOpenInNewWindow)
-          .sort((a, b) => a.order - b.order);
+        const clientsWithoutOpenWindows = clients.filter(
+          (c) => !c.isOpenInNewWindow,
+        );
         const clientIndex = clientsWithoutOpenWindows.indexOf(activeClient);
 
         if (clientIndex > -1) {
@@ -50,10 +50,7 @@ export const keyboardShortcuts: (
           if (clientToOpen) _openClient(clientToOpen?.id, 0);
         }
       } else {
-        const sortedClient = clients.sort((a, b) => a.order - b.order);
-        if (sortedClient.length > 0) {
-          _openClient(sortedClient[0].id, 0);
-        }
+        if (clients.length > 0) _openClient(clients[0].id, 0);
       }
     }
   }
@@ -87,14 +84,14 @@ export const createBrowserView: (
     // Try to get the characters name from localStorage.
     // 'cursor-changed' seems to be a bad trigger for this but I don't know a better one for now.
     const client = clients.find((c) => c.id === id);
-    if (!client?.character) {
+    if (!client?.name) {
       const clientSessions: string | null = await view.webContents
         .executeJavaScript(`
         window.localStorage.getItem('game_client_sessions');
       `);
 
       if (client && clientSessions !== null) {
-        client.character = clientSessions.split('\n')[1].split(' ').at(-1);
+        client.name = clientSessions.split('\n')[1].split(' ').at(-1);
         pushClientsUpdate();
       }
     }

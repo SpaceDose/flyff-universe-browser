@@ -3,7 +3,7 @@ import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
 import Cog6ToothIcon from '@heroicons/react/24/solid/Cog6ToothIcon';
 import {useContext, type FC, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {ClientsContext} from '../../provider/clients-provider';
+import {useClients} from '../../provider/clients-provider';
 import {PlayfieldContext} from '../../provider/playfield-provider';
 import {useSettings} from '../../provider/settings-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
@@ -16,7 +16,7 @@ export const Navigation: FC = () => {
   const playfield = useContext(PlayfieldContext);
   const {showNavigation, padding, navigationHeight, isFullscreen, panels} =
     playfield;
-  const clients = useContext(ClientsContext);
+  const {clients} = useClients();
   const settings = useSettings();
 
   const [pinnedNavigation, setPinnedNavigation] = useState<boolean>(false);

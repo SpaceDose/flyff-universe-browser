@@ -41,9 +41,8 @@ export type Panel = {
 
 export type Client = {
   id: string;
-  character?: string;
+  name?: string;
   view?: BrowserView;
-  order: number;
   isOpenInNewWindow?: boolean;
   isMuted?: boolean;
   window?: BrowserWindow;

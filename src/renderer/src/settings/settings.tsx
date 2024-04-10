@@ -10,12 +10,15 @@ export const Settings: FC = () => {
     <div className='absolute left-0 top-0 z-50 flex h-screen w-screen justify-center overflow-hidden text-white'>
       <div className='flex shrink-0 grow flex-col items-end gap-2 overflow-y-auto bg-gray-darker px-5 pb-12 pt-28'>
         <SettingsLink label='General' to='general' />
+        <SettingsLink label='Clients' to='clients' />
         <SettingsLink label='Changelog' to='changelog' />
+
         <div className='mt-auto'>
           <a
             href='https://github.com/SpaceDose/flyff-universe-browser'
             target='_blank'
-            className='hover:bg-gray-lighter' rel="noreferrer"
+            className='hover:bg-gray-lighter'
+            rel='noreferrer'
           >
             <img
               src={Github}
@@ -24,6 +27,7 @@ export const Settings: FC = () => {
           </a>
         </div>
       </div>
+
       <Outlet />
     </div>
   );

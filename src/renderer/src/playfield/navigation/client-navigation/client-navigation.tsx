@@ -13,11 +13,9 @@ export const ClientNavigation: FC<ClientNavigationProps> = ({
   playfield,
 }) => (
   <div className='flex h-full gap-2'>
-    {clients
-      .sort((a, b) => a.order - b.order)
-      .map((client) => (
-        <ClientTile key={client.id} client={client} panelSettings={playfield} />
-      ))}
+    {clients.map((client) => (
+      <ClientTile key={client.id} client={client} panelSettings={playfield} />
+    ))}
     <button
       onClick={() => window.api.addClient()}
       className='flex w-24 items-center justify-center rounded bg-gray-darker shadow hover:bg-gray-lighter'

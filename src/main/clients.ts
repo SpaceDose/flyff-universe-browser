@@ -6,7 +6,7 @@ import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {createBrowserView} from './utils';
 import {win} from '.';
 
-export const clients: Client[] = db.get('clients', []);
+export let clients: Client[] = db.get('clients', []);
 
 export const getClientById = (id: string) => {
   const client = clients.find((client) => client.id === id);
@@ -27,12 +27,16 @@ export const pushClientsUpdate = () => {
   pushPlayfieldUpdate();
 };
 
+const reorderClients = (_: IpcMainInvokeEvent, reorderedClients: Client[]) => {
+  clients = reorderedClients.map((client) => getClientById(client.id));
+  pushClientsUpdate();
+};
+
 const addClient = () => {
   const id = v4();
   clients.push({
     id,
     view: createBrowserView(id),
-    order: clients.length,
   });
 
   pushClientsUpdate();
@@ -47,9 +51,7 @@ const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
     panel.clientId = undefined;
     win?.removeBrowserView(client.view);
   }
-
   clients.splice(index, 1);
-  clients.sort((a, b) => a.order - b.order).forEach((c, i) => (c.order = i));
 
   pushClientsUpdate();
 };
@@ -118,7 +120,7 @@ const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
 
   clientToOpen.isOpenInNewWindow = true;
   clientToOpen.window = new BrowserWindow({
-    title: clientToOpen.character,
+    title: clientToOpen.name,
     width,
     height,
     x: x ? x + 24 : undefined,
@@ -153,21 +155,15 @@ const closeWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   pushClientsUpdate();
 };
 
-const _moveClient = (clientId: string, direction: 'left' | 'right') => {
-  const f = direction === 'left' ? -1 : 1;
+const renameClient = (
+  _: IpcMainInvokeEvent,
+  clientId: string,
+  name: string,
+) => {
   const client = getClientById(clientId);
-  const clientToSwap = clients.find((c) => c.order === client.order + f);
-  if (clientToSwap) {
-    clientToSwap.order -= f;
-    client.order += f;
-    pushClientsUpdate();
-  }
+  client.name = name;
+  pushClientsUpdate();
 };
-
-const moveClientLeft = (_: IpcMainInvokeEvent, clientId: string) =>
-  _moveClient(clientId, 'left');
-const moveClientRight = (_: IpcMainInvokeEvent, clientId: string) =>
-  _moveClient(clientId, 'right');
 
 const reloadClient = (_: IpcMainInvokeEvent, clientId: string) => {
   const client = getClientById(clientId);
@@ -188,13 +184,13 @@ export const registerClientHandlers = () => {
       return clientWithoutView;
     }),
   );
+  ipcMain.on('reorderClients', reorderClients);
   ipcMain.on('addClient', addClient);
   ipcMain.on('removeClient', removeClient);
   ipcMain.on('openClient', openClient);
   ipcMain.on('openWindow', openWindow);
+  ipcMain.on('renameClient', renameClient);
   ipcMain.on('closeWindow', closeWindow);
-  ipcMain.on('moveClientLeft', moveClientLeft);
-  ipcMain.on('moveClientRight', moveClientRight);
   ipcMain.on('reloadClient', reloadClient);
   ipcMain.on('toggleMuted', toggleMuted);
 };

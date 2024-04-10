@@ -19,41 +19,6 @@ export const keyboardShortcuts: (
     playfield.isFullscreen = newState;
     pushPlayfieldUpdate();
   }
-
-  if (
-    input.type === 'keyDown' &&
-    input.alt &&
-    (input.key === 'ArrowLeft' || input.key === 'ArrowRight')
-  ) {
-    event.preventDefault();
-    const activePanels = playfield.panels.filter((p) => p.active);
-    if (activePanels.length === 1) {
-      const activeClient = clients.find(
-        (c) => c.id === activePanels[0].clientId,
-      );
-
-      if (activeClient) {
-        const clientsWithoutOpenWindows = clients.filter(
-          (c) => !c.isOpenInNewWindow,
-        );
-        const clientIndex = clientsWithoutOpenWindows.indexOf(activeClient);
-
-        if (clientIndex > -1) {
-          const clientToOpen =
-            clientsWithoutOpenWindows[
-              (clientIndex +
-                (input.key === 'ArrowLeft' ? -1 : 1) +
-                clientsWithoutOpenWindows.length) %
-                clientsWithoutOpenWindows.length
-            ];
-
-          if (clientToOpen) _openClient(clientToOpen?.id, 0);
-        }
-      } else {
-        if (clients.length > 0) _openClient(clients[0].id, 0);
-      }
-    }
-  }
 };
 
 export const createBrowserView: (

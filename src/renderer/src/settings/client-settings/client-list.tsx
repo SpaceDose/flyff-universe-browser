@@ -40,7 +40,7 @@ export const ClientList: FC = () => {
                     {...provided.dragHandleProps}
                     className='group mb-2 flex flex-col gap-2 rounded border-l-2 border-blue-lighter bg-gray-light p-2 shadow'
                   >
-                    <Bars3Icon className='w-3 shrink-0 self-end' />
+                    <Bars3Icon className='w-4 shrink-0 self-end' />
                     <div className='flex grow flex-col justify-between px-1'>
                       <input
                         type='text'

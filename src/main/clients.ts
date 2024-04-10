@@ -56,7 +56,11 @@ const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
   pushClientsUpdate();
 };
 
-export const _openClient = (clientId: string, panelIndex: number) => {
+const openClient = (
+  _: IpcMainInvokeEvent,
+  clientId: string,
+  panelIndex: number,
+) => {
   const clientToOpen = getClientById(clientId);
   const alreadyOpenPanel = playfield.panels.find(
     (p) => p.clientId === clientId,
@@ -93,12 +97,6 @@ export const _openClient = (clientId: string, panelIndex: number) => {
 
   pushClientsUpdate();
 };
-
-const openClient = (
-  _: IpcMainInvokeEvent,
-  clientId: string,
-  panelIndex: number,
-) => _openClient(clientId, panelIndex);
 
 const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   const clientToOpen = getClientById(clientId);

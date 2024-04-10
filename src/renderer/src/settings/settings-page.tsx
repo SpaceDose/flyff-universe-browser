@@ -5,22 +5,32 @@ import {useNavigate} from 'react-router-dom';
 
 type SettingsPageProps = {
   title: string;
+  description?: string;
   options: ReactNode[];
 };
 
-export const SettingsPage: FC<SettingsPageProps> = ({title, options}) => {
+export const SettingsPage: FC<SettingsPageProps> = ({
+  title,
+  description,
+  options,
+}) => {
   const navigate = useNavigate();
 
   return (
     <OverlayScrollbarsComponent className='flex grow flex-col bg-gray-dark p-8'>
       <div className='flex w-[32rem] flex-col'>
-        <div className='flex items-center justify-between font-bold'>
-          <h1 className='text-xl'>{title}</h1>
+        <div className='flex items-center justify-between'>
+          <div>
+            <h1 className='text-xl font-bold'>{title}</h1>
+            {description && (
+              <h2 className='text-sm text-white/75'>{description}</h2>
+            )}
+          </div>
 
           <button
             type='button'
             onClick={() => navigate('/')}
-            className='rounded-full p-px hover:bg-gray-light'
+            className='ml-4 rounded-full p-px hover:bg-gray-light'
           >
             <XCircleIcon className='w-8' />
           </button>

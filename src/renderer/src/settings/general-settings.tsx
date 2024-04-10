@@ -11,6 +11,7 @@ export const GeneralSettings: FC = () => {
   return (
     <SettingsPage
       title='General'
+      description='Enable or disable some of the general features of this app.'
       options={[
         <Switch
           key={0}

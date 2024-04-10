@@ -1,5 +1,5 @@
 import {BrowserView, session} from 'electron';
-import {_openClient, clients, pushClientsUpdate} from './clients';
+import {clients, pushClientsUpdate} from './clients';
 import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
 import {settings} from './settings';

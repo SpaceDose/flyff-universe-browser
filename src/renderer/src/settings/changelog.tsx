@@ -17,6 +17,7 @@ export const Changelog: FC = () => {
   return (
     <SettingsPage
       title='Changelog'
+      description='Take a look through the latest changes of the app.'
       options={changelog.map((changes, index) => (
         <Markdown
           key={index}

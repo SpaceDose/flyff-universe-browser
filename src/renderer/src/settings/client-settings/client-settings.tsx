@@ -8,5 +8,11 @@ export const ClientSettings: FC = () => {
 
   if (!settings) return null;
 
-  return <SettingsPage title='Clients' options={[<ClientList key={0} />]} />;
+  return (
+    <SettingsPage
+      title='Clients'
+      description='Here you can control the display name, order and much more of your clients.'
+      options={[<ClientList key={0} />]}
+    />
+  );
 };

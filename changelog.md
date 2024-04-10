@@ -1,6 +1,8 @@
 ### v0.0.8
 
 -   Added an option to disable opening the client navigation on hover while in fullscreen.
+-   Added an interface to control and rename clients.
+-   You now have to confirm before a client is removed from the app.
 
 ---
 

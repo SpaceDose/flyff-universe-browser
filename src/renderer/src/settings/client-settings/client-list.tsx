@@ -9,10 +9,12 @@ import SpeakerWaveIcon from '@heroicons/react/24/solid/SpeakerWaveIcon';
 import SpeakerXMarkIcon from '@heroicons/react/24/solid/SpeakerXMarkIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import {type FC} from 'react';
+import {useConfirm} from '../../components/confirmation-dialog/useConfirm';
 import {useClients} from '../../provider/clients-provider';
 
 export const ClientList: FC = () => {
   const {clients, setClients} = useClients();
+  const {confirm} = useConfirm();
 
   const onDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
@@ -65,7 +67,16 @@ export const ClientList: FC = () => {
                         </button>
 
                         <button
-                          onClick={() => window.api.removeClient(client.id)}
+                          onClick={async () => {
+                            if (
+                              await confirm(
+                                `Are you sure you want to delete ${client.name ?? 'Unnamed'}?`,
+                                'This action cannot be undone. This will permanently delete your settings of the selected client on this app.',
+                              )
+                            ) {
+                              window.api.removeClient(client.id);
+                            }
+                          }}
                           className='opacity-50 hover:opacity-100'
                         >
                           <TrashIcon className='w-5' />

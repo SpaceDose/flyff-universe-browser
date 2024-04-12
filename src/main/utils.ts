@@ -25,7 +25,7 @@ export const createBrowserView: (
   id: string,
   isMuted?: boolean,
 ) => BrowserView = (id, isMuted) => {
-  const s = session.fromPartition(`persist:client-${id}`);
+  const s = session.fromPartition(`persist:client-${id}`, {cache: true});
   const view = new BrowserView({
     webPreferences: {
       session: s,
@@ -35,10 +35,9 @@ export const createBrowserView: (
   view.webContents.on('before-input-event', keyboardShortcuts);
 
   view.webContents.addListener('cursor-changed', async () => {
-    if (!settings.focusOnHover) return;
-
     // Focus the BrowserView on mouse enter.
     if (
+      settings.focusOnHover &&
       !view.webContents.isFocused() &&
       (win?.webContents.isFocused() ||
         clients.some((c) => c.view?.webContents.isFocused()))

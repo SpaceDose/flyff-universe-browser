@@ -31,7 +31,9 @@ const hideAllViews = () => {
 };
 
 const showAllViews = () => {
-  const openClientIds = playfield.panels.map((panel) => panel.clientId);
+  const openClientIds = playfield.panels.map(
+    (panel) => panel.active && panel.clientId,
+  );
   clients.forEach((client) => {
     if (client.view && openClientIds.includes(client.id)) {
       win?.addBrowserView(client.view);

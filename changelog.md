@@ -2,6 +2,8 @@
 
 -   Replaced the client reload button with a close button.
 -   Removed the possibility to hide open clients as it does not seem to be necessary anymore.
+-   Fix some minor bugs.
+-   Added a simple readme.
 
 ---
 

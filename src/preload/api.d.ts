@@ -19,10 +19,10 @@ export interface API {
   addClient: () => void;
   removeClient: (clientId: string) => void;
   openClient: (clientId: string, panelIndex: number) => void;
+  closeClient: (clientId: string) => void;
   openWindow: (clientId: string) => void;
   closeWindow: (clientId: string) => void;
   renameClient: (clientId: string, name: string) => void;
-  reloadClient: (clientId: string) => void;
   toggleMuted: (clientId: string) => void;
 
   // settings

@@ -32,11 +32,11 @@ const api: API = {
   removeClient: (clientId) => ipcRenderer.send('removeClient', clientId),
   openClient: (clientId, panelIndex) =>
     ipcRenderer.send('openClient', clientId, panelIndex),
+  closeClient: (clientId) => ipcRenderer.send('closeClient', clientId),
   openWindow: (clientId) => ipcRenderer.send('openWindow', clientId),
   closeWindow: (clientId) => ipcRenderer.send('closeWindow', clientId),
   renameClient: (clientId, name) =>
     ipcRenderer.send('renameClient', clientId, name),
-  reloadClient: (clientId) => ipcRenderer.send('reloadClient', clientId),
   toggleMuted: (clientId) => ipcRenderer.send('toggleMuted', clientId),
 
   hideAllViews: () => ipcRenderer.send('hideAllViews'),

@@ -1,3 +1,10 @@
+### v0.0.9
+
+-   Replaced the client reload button with a close button.
+-   Removed the possibility to hide open clients as it does not seem to be necessary anymore.
+
+---
+
 ### v0.0.8
 
 -   Added an option to disable opening the client navigation on hover while in fullscreen.

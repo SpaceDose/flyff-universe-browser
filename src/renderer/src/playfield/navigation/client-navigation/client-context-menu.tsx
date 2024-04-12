@@ -1,8 +1,8 @@
-import ArrowPathIcon from '@heroicons/react/24/solid/ArrowPathIcon';
 import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
 import Cog6ToothIcon from '@heroicons/react/24/solid/Cog6ToothIcon';
 import SpeakerWaveIcon from '@heroicons/react/24/solid/SpeakerWaveIcon';
 import SpeakerXMarkIcon from '@heroicons/react/24/solid/SpeakerXMarkIcon';
+import ArrowPathIcon from '@heroicons/react/24/solid/XMarkIcon';
 import {type ReactNode, type FC} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {type Client} from '../../../../../preload/types';
@@ -38,22 +38,22 @@ export const ClientContextMenu: FC<ClientContextMenuProps> = ({client}) => {
     <div className='grid size-full grid-cols-4 rounded bg-gray-darker px-0.5 py-1'>
       <Col>
         <MenuButton
-          onClick={() => window.api.reloadClient(client.id)}
-          icon={<ArrowPathIcon />}
+          onClick={() => window.api.openWindow(client.id)}
+          icon={<ArrowTopRightOnSquareIcon />}
+          hide={client.isOpenInNewWindow}
         />
         <MenuButton
           onClick={() => window.api.toggleMuted(client.id)}
           icon={client.isMuted ? <SpeakerXMarkIcon /> : <SpeakerWaveIcon />}
         />
-        <MenuButton
-          onClick={() => window.api.openWindow(client.id)}
-          icon={<ArrowTopRightOnSquareIcon />}
-          hide={client.isOpenInNewWindow}
-        />
       </Col>
       <Col />
       <Col />
       <Col>
+        <MenuButton
+          onClick={() => window.api.closeClient(client.id)}
+          icon={<ArrowPathIcon />}
+        />
         <MenuButton
           onClick={() => navigate('/settings/clients')}
           icon={<Cog6ToothIcon />}

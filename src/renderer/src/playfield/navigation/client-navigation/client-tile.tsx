@@ -23,7 +23,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       onBlur={() => setShowContextMenu(false)}
       onMouseLeave={() => setShowContextMenu(false)}
       onMouseDown={(e) => {
-        if (e.button == 2) setShowContextMenu(true);
+        if (e.button == 2) setShowContextMenu(!showContextMenu);
       }}
       className='group w-24 select-none'
     >

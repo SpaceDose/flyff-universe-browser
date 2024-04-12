@@ -37,7 +37,7 @@ export const PanelSelect: FC<PanelSelect> = ({
             usedAsPanelControl || mouseOverPanel === panel.index
               ? panelColors[panel.index]
               : `${hoverPanelColors[panel.index]} hover:border-white`,
-            mouseOverPanel === panel.index && 'bg-opacity-75 hover:border-red',
+            mouseOverPanel === panel.index && 'cursor-default bg-opacity-75',
           )}
         />
       ))}

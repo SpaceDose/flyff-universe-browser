@@ -66,11 +66,10 @@ const openClient = (
     (p) => p.clientId === clientId,
   );
 
-  if (clientToOpen?.window) return;
-  if (alreadyOpenPanel?.index === panelIndex && clientToOpen?.view) {
-    alreadyOpenPanel.clientId = undefined;
-    win?.removeBrowserView(clientToOpen.view);
-    pushClientsUpdate();
+  if (
+    (alreadyOpenPanel?.index === panelIndex && clientToOpen?.view) ||
+    clientToOpen?.window
+  ) {
     return;
   }
 
@@ -96,6 +95,19 @@ const openClient = (
   }
 
   pushClientsUpdate();
+};
+
+const closeClient = (_: IpcMainInvokeEvent, clientId: string) => {
+  const client = getClientById(clientId);
+  if (client.view) {
+    client.view.webContents.close({waitForBeforeUnload: true});
+    client.view = undefined;
+    const panel = playfield.panels.find(
+      (panel) => panel.clientId === client.id,
+    );
+    if (panel) panel.clientId = undefined;
+    pushClientsUpdate();
+  }
 };
 
 const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
@@ -163,11 +175,6 @@ const renameClient = (
   pushClientsUpdate();
 };
 
-const reloadClient = (_: IpcMainInvokeEvent, clientId: string) => {
-  const client = getClientById(clientId);
-  if (client.view) client.view.webContents.reload();
-};
-
 const toggleMuted = (_: IpcMainInvokeEvent, clientId: string) => {
   const client = getClientById(clientId);
   client.isMuted = !client.isMuted;
@@ -186,9 +193,9 @@ export const registerClientHandlers = () => {
   ipcMain.on('addClient', addClient);
   ipcMain.on('removeClient', removeClient);
   ipcMain.on('openClient', openClient);
+  ipcMain.on('closeClient', closeClient);
   ipcMain.on('openWindow', openWindow);
   ipcMain.on('renameClient', renameClient);
   ipcMain.on('closeWindow', closeWindow);
-  ipcMain.on('reloadClient', reloadClient);
   ipcMain.on('toggleMuted', toggleMuted);
 };

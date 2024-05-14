@@ -18,6 +18,12 @@ export const keyboardShortcuts: (
     win?.setFullScreen(newState);
     playfield.isFullscreen = newState;
     pushPlayfieldUpdate();
+
+    const focussedClient = clients.find((client) =>
+      client.view?.webContents.isFocused(),
+    );
+    win?.blur();
+    focussedClient?.view?.webContents.focus();
   }
 };
 

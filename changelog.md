@@ -1,6 +1,9 @@
-### v0.0.10
+### v0.1.0
 
 -   Fix a bug that you could not use keybinds anymore on entering fullscreen.
+-   Enable scrolling the client list at the bottom _just in case_ people are playing an insane amount of characters.
+
+---
 
 ### v0.0.9
 

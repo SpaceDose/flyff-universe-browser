@@ -63,7 +63,7 @@ export const Navigation: FC = () => {
           <PlayfieldControl panels={panels} />
           <NavigationDivider />
           <ClientNavigation clients={clients} playfield={playfield} />
-          <div className='ml-auto flex items-center gap-4'>
+          <div className='ml-auto flex items-center gap-4 pl-1'>
             <button
               className='rounded-full p-px hover:bg-gray-lighter'
               onClick={() => navigate('/settings/general')}

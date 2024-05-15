@@ -25,7 +25,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       onMouseDown={(e) => {
         if (e.button == 2) setShowContextMenu(!showContextMenu);
       }}
-      className='group w-24 select-none'
+      className='group w-24 shrink-0 select-none'
     >
       {showContextMenu ? (
         <ClientContextMenu client={client} />

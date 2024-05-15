@@ -1,3 +1,7 @@
+### v0.0.10
+
+-   Fix a bug that you could not use keybinds anymore on entering fullscreen.
+
 ### v0.0.9
 
 -   Replaced the client reload button with a close button.

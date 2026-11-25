@@ -17,10 +17,11 @@ const pushSettingsUpdate = () => {
 
 const setSettings = (
   _: IpcMainInvokeEvent,
-  {focusOnHover, openNavigationOnHover}: Settings,
+  {focusOnHover, openNavigationOnHover, unlimitedFps}: Settings,
 ) => {
   settings.focusOnHover = focusOnHover;
   settings.openNavigationOnHover = openNavigationOnHover;
+  settings.unlimitedFps = unlimitedFps;
   pushSettingsUpdate();
 };
 

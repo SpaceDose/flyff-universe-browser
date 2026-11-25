@@ -52,4 +52,6 @@ export type Client = {
 export type Settings = {
   focusOnHover: boolean;
   openNavigationOnHover: boolean;
+  // Only read at startup, since Chromium switches can't change at runtime.
+  unlimitedFps?: boolean;
 };

@@ -2,6 +2,8 @@
 
 -   Updated Electron from v29 to v45, which brings a much newer Chromium engine and the latest security fixes.
 -   Fix deleted clients sometimes continuing to run (and play sound) in the background.
+-   Fix a crash when opening a client in a panel after closing its external window.
+-   New experimental setting "Unlimited FPS" under General tries to remove the frame rate cap for all clients. It may have no effect depending on your system and requires an app restart.
 -   Releases now also include Linux builds (AppImage and deb), and the macOS build runs natively on both Intel and Apple Silicon.
 
 ---

@@ -66,6 +66,9 @@ export const schema: Schema<Profile> = {
       openNavigationOnHover: {
         type: 'boolean',
       },
+      unlimitedFps: {
+        type: 'boolean',
+      },
     },
   },
   clients: {

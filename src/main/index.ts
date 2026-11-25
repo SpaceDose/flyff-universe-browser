@@ -5,11 +5,19 @@ import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
-import {registerSettingsHandlers} from './settings';
+import {registerSettingsHandlers, settings} from './settings';
 import {registerUpdateHandlers, update} from './update';
 import {keyboardShortcuts, loadSavedPanels} from './utils';
 
 export let win: BrowserWindow | null = null;
+
+// Chromium caps rendering at the monitor's refresh rate via VSync. These switches
+// are process-wide and only take effect before the app is ready, so changing the
+// setting requires a restart.
+if (settings.unlimitedFps) {
+  app.commandLine.appendSwitch('disable-frame-rate-limit');
+  app.commandLine.appendSwitch('disable-gpu-vsync');
+}
 
 function createWindow(): void {
   const {width, height, x, y} = db.get('window', {

@@ -37,6 +37,18 @@ export const GeneralSettings: FC = () => {
             })
           }
         />,
+        <Switch
+          key={2}
+          label='Unlimited FPS (experimental)'
+          description="Remove the frame rate cap (normally your monitor's refresh rate) for all clients. Increases CPU and GPU load. May have no effect depending on your system. Requires an app restart."
+          defaultChecked={!!settings?.unlimitedFps}
+          onChange={(e) =>
+            window.api.setSettings({
+              ...settings,
+              unlimitedFps: e.target.checked,
+            })
+          }
+        />,
       ]}
     />
   );

@@ -61,6 +61,18 @@ const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
   pushClientsUpdate();
 };
 
+// Since Electron 30 (BrowserView is a shim over WebContentsView), destroying a
+// window also destroys its attached views. Detach the view first so the client
+// keeps running and can be reopened in a panel.
+const destroyClientWindow = (client: Client) => {
+  if (client.view && !client.view.webContents.isDestroyed()) {
+    client.window?.removeBrowserView(client.view);
+  }
+  client.isOpenInNewWindow = false;
+  client.window?.destroy();
+  client.window = undefined;
+};
+
 const openClient = (
   _: IpcMainInvokeEvent,
   clientId: string,
@@ -87,7 +99,7 @@ const openClient = (
   if (clientToClose?.view) win?.removeBrowserView(clientToClose.view);
 
   if (clientToOpen) {
-    if (!clientToOpen.view) {
+    if (!clientToOpen.view || clientToOpen.view.webContents.isDestroyed()) {
       clientToOpen.view = createBrowserView(
         clientToOpen.id,
         clientToOpen.isMuted,
@@ -152,10 +164,7 @@ const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
   clientToOpen.view.setAutoResize({width: true, height: true});
 
   clientToOpen.window.on('close', () => {
-    clientToOpen.isOpenInNewWindow = false;
-    clientToOpen.window?.destroy();
-    clientToOpen.window = undefined;
-
+    destroyClientWindow(clientToOpen);
     pushClientsUpdate();
   });
 
@@ -163,10 +172,7 @@ const openWindow = (_: IpcMainInvokeEvent, clientId: string) => {
 };
 
 const closeWindow = (_: IpcMainInvokeEvent, clientId: string) => {
-  const client = getClientById(clientId);
-  client.isOpenInNewWindow = false;
-  client.window?.destroy();
-  client.window = undefined;
+  destroyClientWindow(getClientById(clientId));
   pushClientsUpdate();
 };
 

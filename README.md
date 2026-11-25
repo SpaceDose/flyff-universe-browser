@@ -26,12 +26,14 @@ task lint      # lint and format, applying safe fixes
 task build     # build into out/
 ```
 
-Run `task` to list all available tasks, including the platform release builds.
+Run `task` to list all available tasks, including local platform builds (`task package:win`, `package:mac`, `package:linux`).
 
 ### Publishing a release
 
-Publishing to GitHub Releases needs a personal access token with `repo` scope. Pass it via the `GH_TOKEN` environment variable, never in a config file:
+1. Bump `version` in `package.json` and add a matching `### vX.Y.Z` section to `changelog.md`.
+2. Commit and push to `master`.
+3. Run `task release`.
 
-```sh
-GH_TOKEN=<token> bun run build:win --publish always
-```
+This builds Windows (NSIS), macOS (universal DMG) and Linux (AppImage, deb) and publishes them as a GitHub release named after the version, with the changelog section as release notes.
+
+Requirements: the [GitHub CLI](https://cli.github.com) logged in via `gh auth login`, and on Apple Silicon [Rosetta 2](https://support.apple.com/en-us/102527) for the Windows and Linux build tools (`softwareupdate --install-rosetta --agree-to-license`). No access token is stored in the project.

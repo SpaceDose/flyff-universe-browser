@@ -2,6 +2,7 @@
 
 -   Updated Electron from v29 to v45, which brings a much newer Chromium engine and the latest security fixes.
 -   Fix deleted clients sometimes continuing to run (and play sound) in the background.
+-   Releases now also include Linux builds (AppImage and deb), and the macOS build runs natively on both Intel and Apple Silicon.
 
 ---
 

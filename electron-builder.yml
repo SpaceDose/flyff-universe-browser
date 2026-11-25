@@ -29,13 +29,14 @@ nsis:
     deleteAppDataOnUninstall: false
 mac:
     entitlementsInherit: build/entitlements.mac.plist
+    # No Developer ID certificate: skip signing instead of picking up any local development certificate.
+    identity: null
     notarize: false
 dmg:
     artifactName: ${name}-${version}.${ext}
 linux:
     target:
         - AppImage
-        - snap
         - deb
     maintainer: electronjs.org
     category: Utility

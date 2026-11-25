@@ -46,29 +46,83 @@ tasks:
         cmds:
             - bun run build
 
-    release:win:
-        desc: Build the Windows installer
+    package:win:
+        desc: Build the Windows installer locally (needs Rosetta 2 on Apple Silicon)
         deps: [install]
         cmds:
             - bun run build:win
 
-    release:mac:
-        desc: Build the macOS app
+    package:mac:
+        desc: Build the macOS app locally
         deps: [install]
         cmds:
             - bun run build:mac
 
-    release:linux:
-        desc: Build the Linux packages
+    package:linux:
+        desc: Build the Linux packages locally (needs Rosetta 2 on Apple Silicon)
         deps: [install]
         cmds:
             - bun run build:linux
 
-    release:unpacked:
+    package:unpacked:
         desc: Build an unpacked app directory for local testing
         deps: [install]
         cmds:
             - bun run build:unpack
+
+    release:
+        desc: Build Windows, macOS and Linux and publish them as a GitHub release
+        deps: [install]
+        vars:
+            REPO: SpaceDose/flyff-universe-browser
+            VERSION:
+                sh: node -p "require('./package.json').version"
+            OUT: release/{{.VERSION}}
+        preconditions:
+            - sh: command -v gh
+              msg: 'GitHub CLI is missing: brew install gh && gh auth login'
+            - sh: gh auth status
+              msg: 'Not logged in to GitHub: gh auth login'
+            - sh: arch -x86_64 /usr/bin/true
+              msg: 'The Windows and Linux builds need Rosetta 2: softwareupdate --install-rosetta --agree-to-license'
+            - sh: test -z "$(git status --porcelain)"
+              msg: Commit or stash all changes first.
+            - sh: git fetch -q origin master && test "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)"
+              msg: The release is built from HEAD, which must be the pushed master.
+            - sh: '! gh release view {{.VERSION}} --repo {{.REPO}} >/dev/null 2>&1'
+              msg: 'Release {{.VERSION}} already exists. Bump the version in package.json.'
+            - sh: grep -qx '### v{{.VERSION}}' changelog.md
+              msg: 'changelog.md has no section for v{{.VERSION}}.'
+        cmds:
+            - rm -rf {{.OUT}}
+            - bun run build
+            - bunx electron-builder --win nsis --x64 --publish never
+            - bunx electron-builder --mac dmg --universal --publish never
+            - bunx electron-builder --linux AppImage deb --x64 --publish never
+            - task: release-notes
+              vars:
+                  VERSION: '{{.VERSION}}'
+                  FILE: '{{.OUT}}/release-notes.md'
+            - >-
+                gh release create {{.VERSION}}
+                --repo {{.REPO}}
+                --target "$(git rev-parse HEAD)"
+                --title {{.VERSION}}
+                --notes-file {{.OUT}}/release-notes.md
+                {{.OUT}}/flyff-universe-browser-{{.VERSION}}.exe
+                {{.OUT}}/flyff-universe-browser-{{.VERSION}}.exe.blockmap
+                {{.OUT}}/latest.yml
+                {{.OUT}}/flyff-universe-browser-{{.VERSION}}.dmg
+                {{.OUT}}/flyff-universe-browser-{{.VERSION}}.AppImage
+                {{.OUT}}/latest-linux.yml
+                {{.OUT}}/*.deb
+
+    release-notes:
+        internal: true
+        desc: Write the changelog section of VERSION to FILE
+        cmds:
+            - mkdir -p "$(dirname {{.FILE}})"
+            - awk '/^### v{{.VERSION}}$/ {found=1; next} found && /^---$/ {exit} found' changelog.md | sed '/./,$!d' > {{.FILE}}
 
     clean:
         desc: Remove build output

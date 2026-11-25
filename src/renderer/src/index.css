@@ -1,10 +1,38 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-*: initial;
+  --color-white: #fff;
+
+  --color-gray-lighter: #656976;
+  --color-gray-light: #555862;
+  --color-gray: #44474e;
+  --color-gray-dark: #34353a;
+  --color-gray-darker: #232426;
+
+  --color-black: #111213;
+
+  --color-blue-lighter: #72c2f0;
+  --color-blue-light: #45aeea;
+  --color-blue: #1b99e0;
+  --color-blue-dark: #177ab2;
+  --color-blue-darker: #125b84;
+
+  --color-yellow: #ecc917;
+
+  --color-red: #ed1f33;
+
+  --color-transparent: #ffffff00;
+
+  --shadow-*: initial;
+  --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
 html,
 body,
 #root {
   @apply bg-gray;
-  font-family: 'Nunito';
+  font-family: 'Nunito', sans-serif;
 }

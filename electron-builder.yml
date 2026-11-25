@@ -7,8 +7,8 @@ files:
     - '!**/.vscode/*'
     - '!src/*'
     - '!electron.vite.config.{js,ts,mjs,cjs}'
-    - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-    - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+    - '!{biome.json,Taskfile.yml,dev-app-update.yml,CHANGELOG.md,README.md}'
+    - '!{.env,.env.*,.npmrc,bun.lock}'
     - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
     - '!release/*'
 asarUnpack:
@@ -42,11 +42,7 @@ linux:
 appImage:
     artifactName: ${name}-${version}.${ext}
 npmRebuild: false
-electronDownload:
-    mirror: https://npmmirror.com/mirrors/electron/
 publish:
     - provider: github
-      private: true
       owner: SpaceDose
       repo: flyff-universe-browser
-      token: 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

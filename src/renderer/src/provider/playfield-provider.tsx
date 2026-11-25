@@ -1,11 +1,11 @@
 import {
-  type ReactNode,
+  createContext,
   type FC,
+  type ReactNode,
   useEffect,
   useState,
-  createContext,
 } from 'react';
-import {type Playfield} from '../../../preload/types';
+import type {Playfield} from '../../../preload/types';
 
 type PlayfieldProviderProps = {
   children: ReactNode;

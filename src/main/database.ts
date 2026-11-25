@@ -1,6 +1,6 @@
-import {type IpcMainInvokeEvent, app, ipcMain} from 'electron';
+import {app, type IpcMainInvokeEvent, ipcMain} from 'electron';
 import Store, {type Schema} from 'electron-store';
-import {type Profile} from '../preload/types';
+import type {Profile} from '../preload/types';
 
 export const schema: Schema<Profile> = {
   window: {

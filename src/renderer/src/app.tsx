@@ -1,5 +1,5 @@
-import {type FC} from 'react';
-import {RouterProvider, createHashRouter} from 'react-router-dom';
+import type {FC} from 'react';
+import {createHashRouter, RouterProvider} from 'react-router';
 import {Playfield} from './playfield/playfield';
 import {ClientsProvider} from './provider/clients-provider';
 import {PlayfieldProvider} from './provider/playfield-provider';

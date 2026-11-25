@@ -1,4 +1,4 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 import {useSettings} from '../../provider/settings-provider';
 import {SettingsPage} from '../settings-page';
 import {ClientList} from './client-list';

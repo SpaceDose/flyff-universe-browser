@@ -1,6 +1,6 @@
-import {join} from 'path';
-import {electronApp, optimizer, is} from '@electron-toolkit/utils';
-import {app, shell, BrowserWindow} from 'electron';
+import {join} from 'node:path';
+import {electronApp, is, optimizer} from '@electron-toolkit/utils';
+import {app, BrowserWindow, shell} from 'electron';
 import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
 import {registerPanelHandlers} from './playfield/playfield';
@@ -57,8 +57,8 @@ function createWindow(): void {
     return {action: 'deny'};
   });
 
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    win.loadURL(process.env['ELECTRON_RENDERER_URL']);
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    win.loadURL(process.env.ELECTRON_RENDERER_URL);
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'));
   }
@@ -86,7 +86,7 @@ app.whenReady().then(() => {
   });
   createWindow();
 
-  app.on('activate', function () {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });

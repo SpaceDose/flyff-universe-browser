@@ -1,4 +1,4 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 
 type SwitchProps = {
   label: string;
@@ -16,7 +16,7 @@ export const Switch: FC<SwitchProps> = ({
   <label className='flex cursor-pointer justify-between gap-6'>
     <div>
       <p className='select-none'>{label}</p>
-      <p className='select-none text-sm text-white/50'>{description}</p>
+      <p className='text-sm text-white/50 select-none'>{description}</p>
     </div>
     <input
       type='checkbox'
@@ -24,6 +24,6 @@ export const Switch: FC<SwitchProps> = ({
       defaultChecked={defaultChecked}
       onChange={onChange}
     />
-    <div className="peer relative h-6 w-11 shrink-0 rounded-full after:absolute after:start-[2px] after:top-[2px] after:size-5 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:bg-gray-light" />
+    <div className="peer peer-checked:bg-blue dark:bg-gray-light relative h-6 w-11 shrink-0 rounded-full after:absolute after:inset-s-[2px] after:top-[2px] after:size-5 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white peer-checked:rtl:after:-translate-x-full" />
   </label>
 );

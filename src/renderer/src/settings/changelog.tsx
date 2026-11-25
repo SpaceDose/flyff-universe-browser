@@ -19,13 +19,10 @@ export const Changelog: FC = () => {
       title='Changelog'
       description='Take a look through the latest changes of the app.'
       options={changelog.map((changes, index) => (
-        <Markdown
-          key={index}
-          remarkPlugins={[remarkGfm]}
-          className='prose prose-neutral prose-invert'
-        >
-          {changes}
-        </Markdown>
+        // biome-ignore lint/suspicious/noArrayIndexKey: static list, never reordered
+        <div key={index} className='prose prose-neutral prose-invert'>
+          <Markdown remarkPlugins={[remarkGfm]}>{changes}</Markdown>
+        </div>
       ))}
     />
   );

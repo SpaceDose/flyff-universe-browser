@@ -1,0 +1,76 @@
+version: '3'
+
+tasks:
+    default:
+        desc: List all available tasks
+        cmds:
+            - task --list
+        silent: true
+
+    install:
+        desc: Install dependencies
+        cmds:
+            - bun install
+
+    dev:
+        desc: Start the app in development mode
+        deps: [install]
+        cmds:
+            - bun run dev
+
+    preview:
+        desc: Build and start the app in production mode
+        deps: [install]
+        cmds:
+            - bun run start
+
+    typecheck:
+        desc: Typecheck main, preload and renderer
+        cmds:
+            - bun run typecheck
+
+    lint:
+        desc: Lint and format, applying safe fixes
+        cmds:
+            - bun run lint
+
+    check:
+        desc: Lint, format check and typecheck without changing files (CI)
+        cmds:
+            - bun run lint:check
+            - bun run typecheck
+
+    build:
+        desc: Typecheck and build the app into out/
+        deps: [install]
+        cmds:
+            - bun run build
+
+    release:win:
+        desc: Build the Windows installer
+        deps: [install]
+        cmds:
+            - bun run build:win
+
+    release:mac:
+        desc: Build the macOS app
+        deps: [install]
+        cmds:
+            - bun run build:mac
+
+    release:linux:
+        desc: Build the Linux packages
+        deps: [install]
+        cmds:
+            - bun run build:linux
+
+    release:unpacked:
+        desc: Build an unpacked app directory for local testing
+        deps: [install]
+        cmds:
+            - bun run build:unpack
+
+    clean:
+        desc: Remove build output
+        cmds:
+            - rm -rf out release

@@ -3,9 +3,9 @@ import Cog6ToothIcon from '@heroicons/react/24/solid/Cog6ToothIcon';
 import SpeakerWaveIcon from '@heroicons/react/24/solid/SpeakerWaveIcon';
 import SpeakerXMarkIcon from '@heroicons/react/24/solid/SpeakerXMarkIcon';
 import ArrowPathIcon from '@heroicons/react/24/solid/XMarkIcon';
-import {type ReactNode, type FC} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {type Client} from '../../../../../preload/types';
+import type {FC, ReactNode} from 'react';
+import {useNavigate} from 'react-router';
+import type {Client} from '../../../../../preload/types';
 
 type ClientContextMenuProps = {
   client: Client;
@@ -18,7 +18,8 @@ const MenuButton: FC<{
 }> = ({icon, onClick, hide}) =>
   !hide ? (
     <button
-      className='size-5 rounded-full p-px hover:bg-gray-lighter'
+      type='button'
+      className='hover:bg-gray-lighter size-5 rounded-full p-px'
       onClick={onClick}
     >
       {icon}
@@ -35,7 +36,7 @@ export const ClientContextMenu: FC<ClientContextMenuProps> = ({client}) => {
   const navigate = useNavigate();
 
   return (
-    <div className='grid size-full grid-cols-4 rounded bg-gray-darker px-0.5 py-1'>
+    <div className='bg-gray-darker grid size-full grid-cols-4 rounded-sm px-0.5 py-1'>
       <Col>
         <MenuButton
           onClick={() => window.api.openWindow(client.id)}

@@ -1,10 +1,10 @@
 import {electronAPI} from '@electron-toolkit/preload';
 import {contextBridge, ipcRenderer} from 'electron';
-import {type API} from './api';
+import type {API} from './api';
 
 const push =
   (updateCallback: string) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: IPC payloads are untyped
   (callback: (event: Electron.IpcRendererEvent, ...args: any[]) => void) => {
     ipcRenderer.on(updateCallback, callback);
 

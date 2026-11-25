@@ -1,9 +1,9 @@
 import {BrowserView, session} from 'electron';
+import {win} from '.';
 import {clients, pushClientsUpdate} from './clients';
 import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
 import {settings} from './settings';
-import {win} from '.';
 
 const flyffUniverseURL =
   import.meta.env.VITE_TEST_URL ?? 'https://universe.flyff.com/play';
@@ -27,50 +27,49 @@ export const keyboardShortcuts: (
   }
 };
 
-export const createBrowserView: (
-  id: string,
-  isMuted?: boolean,
-) => BrowserView = (id, isMuted) => {
-  const s = session.fromPartition(`persist:client-${id}`, {cache: true});
-  const view = new BrowserView({
-    webPreferences: {
-      session: s,
-    },
-  });
-  view.webContents.loadURL(flyffUniverseURL);
-  view.webContents.on('before-input-event', keyboardShortcuts);
+export const createBrowserView: (id: string, isMuted?: boolean) => BrowserView =
+  (id, isMuted) => {
+    const s = session.fromPartition(`persist:client-${id}`, {cache: true});
+    const view = new BrowserView({
+      webPreferences: {
+        session: s,
+      },
+    });
+    view.webContents.loadURL(flyffUniverseURL);
+    view.webContents.on('before-input-event', keyboardShortcuts);
 
-  view.webContents.addListener('cursor-changed', async () => {
-    // Focus the BrowserView on mouse enter.
-    if (
-      settings.focusOnHover &&
-      !view.webContents.isFocused() &&
-      (win?.webContents.isFocused() ||
-        clients.some((c) => c.view?.webContents.isFocused()))
-    ) {
-      view.webContents.focus();
-    }
+    view.webContents.addListener('cursor-changed', async () => {
+      // Focus the BrowserView on mouse enter.
+      if (
+        settings.focusOnHover &&
+        !view.webContents.isFocused() &&
+        (win?.webContents.isFocused() ||
+          clients.some((c) => c.view?.webContents.isFocused()))
+      ) {
+        view.webContents.focus();
+      }
 
-    // Try to get the characters name from localStorage.
-    // 'cursor-changed' seems to be a bad trigger for this but I don't know a better one for now.
-    const client = clients.find((c) => c.id === id);
-    if (!client?.name) {
-      const clientSessions: string | null = await view.webContents
-        .executeJavaScript(`
+      // Try to get the characters name from localStorage.
+      // 'cursor-changed' seems to be a bad trigger for this but I don't know a better one for now.
+      const client = clients.find((c) => c.id === id);
+      if (!client?.name) {
+        const clientSessions: string | null =
+          await view.webContents.executeJavaScript(`
         window.localStorage.getItem('game_client_sessions');
       `);
 
-      if (client && clientSessions !== null) {
-        client.name = clientSessions.split('\n')[1].split(' ').at(-1);
-        pushClientsUpdate();
+        const name = clientSessions?.split('\n')[1]?.split(' ').at(-1);
+        if (client && name) {
+          client.name = name;
+          pushClientsUpdate();
+        }
       }
-    }
-  });
+    });
 
-  view.webContents.setAudioMuted(!!isMuted);
+    view.webContents.setAudioMuted(!!isMuted);
 
-  return view;
-};
+    return view;
+  };
 
 export const loadSavedPanels = () => {
   playfield.panels.forEach((panel) => {

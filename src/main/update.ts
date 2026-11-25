@@ -8,7 +8,8 @@ export const update = () => {
   if (import.meta.env.PROD) {
     autoUpdater.autoInstallOnAppQuit = true;
     autoUpdater.autoDownload = true;
-    autoUpdater.checkForUpdates();
+    // Errors are already logged by electron-updater; an offline start must not reject unhandled.
+    autoUpdater.checkForUpdates().catch(() => {});
   }
 
   autoUpdater.on('update-available', () => {

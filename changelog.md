@@ -1,3 +1,10 @@
+### v0.2.0
+
+-   Updated Electron from v29 to v45, which brings a much newer Chromium engine and the latest security fixes.
+-   Fix deleted clients sometimes continuing to run (and play sound) in the background.
+
+---
+
 ### v0.1.0
 
 -   Fix a bug that you could not use keybinds anymore on entering fullscreen.

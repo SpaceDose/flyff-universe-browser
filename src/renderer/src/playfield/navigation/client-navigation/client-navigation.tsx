@@ -4,7 +4,7 @@ import {
   type OverlayScrollbarsComponentRef,
 } from 'overlayscrollbars-react';
 import {createRef, type FC} from 'react';
-import {type Client, type Playfield} from '../../../../../preload/types';
+import type {Client, Playfield} from '../../../../../preload/types';
 import {ClientTile} from './client-tile';
 
 type ClientNavigationProps = {
@@ -40,8 +40,9 @@ export const ClientNavigation: FC<ClientNavigationProps> = ({
             />
           ))}
           <button
+            type='button'
             onClick={() => window.api.addClient()}
-            className='flex w-24 shrink-0 items-center justify-center rounded bg-gray-darker shadow hover:bg-gray-lighter'
+            className='bg-gray-darker hover:bg-gray-lighter flex w-24 shrink-0 items-center justify-center rounded-sm shadow'
           >
             <PlusIcon className='w-5' />
           </button>

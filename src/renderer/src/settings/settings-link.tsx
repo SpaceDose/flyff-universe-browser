@@ -1,5 +1,5 @@
-import {type FC} from 'react';
-import {Link, useLocation} from 'react-router-dom';
+import type {FC} from 'react';
+import {Link, useLocation} from 'react-router';
 import {twMerge} from 'tailwind-merge';
 
 type SettingsLinkProps = {
@@ -14,8 +14,8 @@ export const SettingsLink: FC<SettingsLinkProps> = ({label, to}) => {
     <Link
       to={`/settings/${to}`}
       className={twMerge(
-        'flex w-32 select-none rounded bg-gray px-2 py-1 hover:bg-gray-light',
-        pathname.endsWith(to) && 'cursor-default bg-blue hover:bg-blue',
+        'bg-gray hover:bg-gray-light flex w-32 rounded-sm px-2 py-1 select-none',
+        pathname.endsWith(to) && 'bg-blue hover:bg-blue cursor-default',
       )}
     >
       {label}

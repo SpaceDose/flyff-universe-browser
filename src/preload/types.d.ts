@@ -1,5 +1,5 @@
 import {type ElectronAPI} from '@electron-toolkit/preload';
-import {type BrowserWindow, type BrowserView} from 'electron';
+import {type BrowserView, type BrowserWindow} from 'electron';
 import {type API} from './api';
 
 declare global {
@@ -16,6 +16,7 @@ export type Profile = {
   clients: Client[];
 };
 
+// biome-ignore lint/suspicious/noRedeclare: augments the global Window interface above, distinct from this type
 export type Window = {
   width: number;
   height: number;

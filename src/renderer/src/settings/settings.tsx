@@ -1,5 +1,5 @@
-import {useEffect, type FC} from 'react';
-import {Outlet} from 'react-router-dom';
+import {type FC, useEffect} from 'react';
+import {Outlet} from 'react-router';
 import Github from '../assets/github.svg';
 import {ConfirmContextProvider} from '../components/confirmation-dialog/confirm-context-provider';
 import {ConfirmationDialog} from '../components/confirmation-dialog/confirmation-dialog';
@@ -10,8 +10,8 @@ export const Settings: FC = () => {
 
   return (
     <ConfirmContextProvider>
-      <div className='absolute left-0 top-0 z-50 flex h-screen w-screen justify-center overflow-hidden text-white'>
-        <div className='flex shrink-0 grow flex-col items-end gap-2 overflow-y-auto bg-gray-darker px-5 pb-12 pt-28'>
+      <div className='absolute top-0 left-0 z-50 flex h-screen w-screen justify-center overflow-hidden text-white'>
+        <div className='bg-gray-darker flex shrink-0 grow flex-col items-end gap-2 overflow-y-auto px-5 pt-28 pb-12'>
           <SettingsLink label='General' to='general' />
           <SettingsLink label='Clients' to='clients' />
           <SettingsLink label='Changelog' to='changelog' />
@@ -25,7 +25,8 @@ export const Settings: FC = () => {
             >
               <img
                 src={Github}
-                className='size-8 rounded-full p-1 hover:bg-gray-light'
+                alt='GitHub'
+                className='hover:bg-gray-light size-8 rounded-full p-1'
               />
             </a>
           </div>

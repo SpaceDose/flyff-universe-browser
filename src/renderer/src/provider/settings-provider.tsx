@@ -1,12 +1,12 @@
 import {
-  type ReactNode,
-  type FC,
-  useState,
   createContext,
+  type FC,
+  type ReactNode,
   useContext,
   useEffect,
+  useState,
 } from 'react';
-import {type Settings} from '../../../preload/types';
+import type {Settings} from '../../../preload/types';
 
 type SettingsProviderProps = {
   children: ReactNode;

@@ -1,9 +1,9 @@
 import {type IpcMainInvokeEvent, ipcMain} from 'electron';
-import {type Settings as Settings} from '../preload/types';
+import type {Settings} from '../preload/types';
+import {win} from '.';
 import {clients, pushClientsUpdate} from './clients';
 import {db} from './database';
 import {playfield} from './playfield/playfield';
-import {win} from '.';
 
 export const settings: Settings = db.get('settings', {
   focusOnHover: true,

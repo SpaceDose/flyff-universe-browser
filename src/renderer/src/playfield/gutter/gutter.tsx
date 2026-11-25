@@ -1,4 +1,4 @@
-import {type FC, useState, useCallback, useEffect, useContext} from 'react';
+import {type FC, useCallback, useContext, useEffect, useState} from 'react';
 import {PlayfieldContext} from '../../provider/playfield-provider';
 import {Background} from './background';
 import {ResizeBar} from './resize-bar';
@@ -11,14 +11,8 @@ export type Cursor = {
 };
 
 export const Gutter: FC = () => {
-  const {
-    splitX,
-    splitY,
-    padding,
-    showNavigation,
-    navigationHeight,
-    panels: panels,
-  } = useContext(PlayfieldContext);
+  const {splitX, splitY, padding, showNavigation, navigationHeight, panels} =
+    useContext(PlayfieldContext);
 
   const [isDragging, setIsDragging] = useState<{x?: boolean; y?: boolean}>({});
   const [cursor, setCursor] = useState<Cursor>({deltaX: 0, deltaY: 0});

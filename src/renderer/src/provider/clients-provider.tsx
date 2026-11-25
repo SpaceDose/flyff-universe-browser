@@ -1,12 +1,12 @@
 import {
-  type ReactNode,
   createContext,
   type FC,
-  useState,
-  useEffect,
+  type ReactNode,
   useContext,
+  useEffect,
+  useState,
 } from 'react';
-import {type Client} from '../../../preload/types';
+import type {Client} from '../../../preload/types';
 
 type ClientsProviderProps = {
   children: ReactNode;

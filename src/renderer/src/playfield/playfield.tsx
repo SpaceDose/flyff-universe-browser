@@ -6,7 +6,7 @@ export const Playfield: FC = () => {
   useEffect(() => window.api.showAllViews(), []);
 
   return (
-    <div className='flex h-screen flex-col bg-blue-lighter text-white'>
+    <div className='bg-blue-lighter flex h-screen flex-col text-white'>
       <Gutter />
       <Navigation />
     </div>

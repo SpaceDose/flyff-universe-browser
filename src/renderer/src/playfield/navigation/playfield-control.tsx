@@ -1,8 +1,8 @@
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
-import {type FC} from 'react';
+import type {FC} from 'react';
 import {twMerge} from 'tailwind-merge';
-import {type Panel} from '../../../../preload/types';
+import type {Panel} from '../../../../preload/types';
 import {PanelSelect} from './client-navigation/panel-select';
 
 type PlayfieldControlProps = {
@@ -19,7 +19,7 @@ export const PlayfieldControl: FC<PlayfieldControlProps> = ({panels}) => {
   };
 
   return (
-    <div className='flex h-full select-none flex-col items-center justify-center pb-3'>
+    <div className='flex h-full flex-col items-center justify-center pb-3 select-none'>
       <p className='self-start text-sm'>Panels</p>
 
       <div
@@ -30,18 +30,20 @@ export const PlayfieldControl: FC<PlayfieldControlProps> = ({panels}) => {
 
         <div className='ml-0.5 flex flex-col self-center'>
           <button
+            type='button'
             onClick={addPanel}
             className={twMerge(
-              'hover:bg-gray-500 rounded-full p-0.5',
+              'rounded-full p-0.5 hover:bg-gray-500',
               panels.length === 4 && 'cursor-default opacity-25',
             )}
           >
             <ChevronUpIcon className='w-3' />
           </button>
           <button
+            type='button'
             onClick={removePanel}
             className={twMerge(
-              'hover:bg-gray-500 rounded-full p-0.5',
+              'rounded-full p-0.5 hover:bg-gray-500',
               panels.length === 1 && 'cursor-default opacity-25',
             )}
           >

@@ -1,7 +1,11 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 import {twMerge} from 'tailwind-merge';
-import {type Panel} from '../../../../../preload/types';
-import {hoverPanelColors, panelColors} from '../panel-colors';
+import type {Panel} from '../../../../../preload/types';
+import {
+  hoverPanelColors,
+  panelColors,
+  transparentPanelColors,
+} from '../panel-colors';
 
 type PanelSelect = {
   panels: Panel[];
@@ -25,19 +29,23 @@ export const PanelSelect: FC<PanelSelect> = ({
     >
       {panels.map((panel) => (
         <button
+          type='button'
           key={panel.index}
           onClick={() => {
             if (onClick) onClick(panel.index);
           }}
           className={twMerge(
-            'group border border-transparent bg-gray-darker shadow',
-            usedAsPanelControl ? 'cursor-default' : 'rounded',
+            'group bg-gray-darker border border-transparent shadow',
+            usedAsPanelControl ? 'cursor-default' : 'rounded-sm',
             panels.length < 2 && 'col-span-2',
             panels.length % 2 && 'first:row-span-2',
             usedAsPanelControl || mouseOverPanel === panel.index
               ? panelColors[panel.index]
               : `${hoverPanelColors[panel.index]} hover:border-white`,
-            mouseOverPanel === panel.index && 'cursor-default bg-opacity-75',
+            mouseOverPanel === panel.index && [
+              transparentPanelColors[panel.index],
+              'cursor-default',
+            ],
           )}
         />
       ))}

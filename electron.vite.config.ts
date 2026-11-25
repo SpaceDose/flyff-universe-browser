@@ -1,20 +1,22 @@
-import {resolve} from 'path';
+import {resolve} from 'node:path';
+import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import {defineConfig, externalizeDepsPlugin} from 'electron-vite';
+import {defineConfig} from 'electron-vite';
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
+    build: {
+      // electron-store is ESM-only, so it has to be bundled into the CJS main build.
+      externalizeDeps: {exclude: ['electron-store']},
+    },
   },
-  preload: {
-    plugins: [externalizeDepsPlugin()],
-  },
+  preload: {},
   renderer: {
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src'),
       },
     },
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
   },
 });

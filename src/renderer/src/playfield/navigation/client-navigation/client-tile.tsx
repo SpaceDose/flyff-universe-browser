@@ -1,7 +1,7 @@
 import {type FC, useState} from 'react';
 import {twMerge} from 'tailwind-merge';
-import {type Client, type Playfield} from '../../../../../preload/types';
-import {panelColors} from '../panel-colors';
+import type {Client, Playfield} from '../../../../../preload/types';
+import {transparentPanelColors} from '../panel-colors';
 import {ClientContextMenu} from './client-context-menu';
 import {PanelSelect} from './panel-select';
 
@@ -23,7 +23,7 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       onBlur={() => setShowContextMenu(false)}
       onMouseLeave={() => setShowContextMenu(false)}
       onMouseDown={(e) => {
-        if (e.button == 2) setShowContextMenu(!showContextMenu);
+        if (e.button === 2) setShowContextMenu(!showContextMenu);
       }}
       className='group w-24 shrink-0 select-none'
     >
@@ -32,12 +32,13 @@ export const ClientTile: FC<ClientTileProps> = ({client, panelSettings}) => {
       ) : (
         <>
           <button
+            type='button'
             className={twMerge(
-              'flex size-full cursor-pointer items-end rounded border border-transparent bg-gray-darker px-1.5 py-1 text-left shadow',
+              'bg-gray-darker flex size-full cursor-pointer items-end rounded-sm border border-transparent px-1.5 py-1 text-left shadow',
               activePanel &&
-                `${panelColors[activePanel.index]} border-white bg-opacity-75 hover:border-transparent`,
+                `${transparentPanelColors[activePanel.index]} border-white hover:border-transparent`,
               isOpenInNewWindow
-                ? 'bg-black hover:border-red'
+                ? 'hover:border-red bg-black'
                 : 'group-hover:hidden',
             )}
             onClick={() => window.api.closeWindow(client.id)}

@@ -1,4 +1,4 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 import {type ClassNameValue, twMerge} from 'tailwind-merge';
 
 type ResizeBarProps = {
@@ -16,7 +16,7 @@ export const ResizeBar: FC<ResizeBarProps> = ({
     draggable
     style={style}
     className={twMerge(
-      'absolute top-0 flex select-none items-center justify-center bg-black',
+      'absolute top-0 flex items-center justify-center bg-black select-none',
       className,
     )}
     onMouseDownCapture={(e) => {

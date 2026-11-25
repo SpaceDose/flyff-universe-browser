@@ -1,4 +1,4 @@
-import {type FC} from 'react';
+import type {FC} from 'react';
 import Logo from '../../assets/logo.png';
 import TutorialWithClients from '../../assets/tutorial-with-clients.svg';
 import TutorialWithoutClients from '../../assets/tutorial-without-clients.svg';
@@ -11,9 +11,11 @@ export const Background: FC = () => {
     <>
       <img
         src={Logo}
-        className='pointer-events-none min-w-max select-none p-4'
+        alt='Flyff Universe Browser'
+        className='pointer-events-none min-w-max p-4 select-none'
       />
       <img
+        alt=''
         src={
           clients.length === 0 ? TutorialWithoutClients : TutorialWithClients
         }

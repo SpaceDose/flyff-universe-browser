@@ -1,4 +1,4 @@
-import {type Playfield, type Client, type Settings} from './types';
+import {type Client, type Playfield, type Settings} from './types';
 
 export interface API {
   // database

@@ -1,14 +1,14 @@
 import {
   DragDropContext,
   Draggable,
-  type DropResult,
   Droppable,
+  type DropResult,
 } from '@hello-pangea/dnd';
 import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import SpeakerWaveIcon from '@heroicons/react/24/solid/SpeakerWaveIcon';
 import SpeakerXMarkIcon from '@heroicons/react/24/solid/SpeakerXMarkIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
-import {type FC} from 'react';
+import type {FC} from 'react';
 import {useConfirm} from '../../components/confirmation-dialog/useConfirm';
 import {useClients} from '../../provider/clients-provider';
 
@@ -38,7 +38,7 @@ export const ClientList: FC = () => {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className='group mb-2 flex flex-col gap-2 rounded border-l-2 border-blue-lighter bg-gray-light p-2 shadow'
+                    className='group border-blue-lighter bg-gray-light mb-2 flex flex-col gap-2 rounded-sm border-l-2 p-2 shadow'
                   >
                     <Bars3Icon className='w-4 shrink-0 self-end' />
                     <div className='flex grow flex-col justify-between px-1'>
@@ -46,7 +46,7 @@ export const ClientList: FC = () => {
                         type='text'
                         defaultValue={client.name}
                         placeholder='Unnamed'
-                        className='rounded border border-transparent bg-transparent p-1 outline-none focus:border-gray focus:bg-gray-lighter group-hover:bg-gray-lighter'
+                        className='focus:border-gray focus:bg-gray-lighter group-hover:bg-gray-lighter rounded-sm border border-transparent bg-transparent p-1 outline-hidden'
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') e.currentTarget.blur();
                         }}
@@ -56,6 +56,7 @@ export const ClientList: FC = () => {
                       />
                       <div className='flex gap-4 self-end p-2'>
                         <button
+                          type='button'
                           onClick={() => window.api.toggleMuted(client.id)}
                           className='opacity-50 hover:opacity-100'
                         >
@@ -67,6 +68,7 @@ export const ClientList: FC = () => {
                         </button>
 
                         <button
+                          type='button'
                           onClick={async () => {
                             if (
                               await confirm(

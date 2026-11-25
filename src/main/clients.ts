@@ -1,10 +1,10 @@
-import {type IpcMainInvokeEvent, ipcMain, BrowserWindow} from 'electron';
-import {v4} from 'uuid';
-import {type Client} from '../preload/types';
+import {randomUUID} from 'node:crypto';
+import {BrowserWindow, type IpcMainInvokeEvent, ipcMain} from 'electron';
+import type {Client} from '../preload/types';
+import {win} from '.';
 import {db} from './database';
 import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {createBrowserView} from './utils';
-import {win} from '.';
 
 export let clients: Client[] = db.get('clients', []);
 
@@ -15,11 +15,12 @@ export const getClientById = (id: string) => {
   return client;
 };
 
+// BrowserView and BrowserWindow are native objects that can neither be stored nor sent over IPC.
+const serializableClients = () =>
+  clients.map(({view, window, ...client}) => client);
+
 export const pushClientsUpdate = () => {
-  const clientsWithoutViews = clients.map((client) => {
-    const {view, window, ...clientWithoutView} = client;
-    return clientWithoutView;
-  });
+  const clientsWithoutViews = serializableClients();
 
   db.set('clients', clientsWithoutViews);
 
@@ -33,7 +34,7 @@ const reorderClients = (_: IpcMainInvokeEvent, reorderedClients: Client[]) => {
 };
 
 const addClient = () => {
-  const id = v4();
+  const id = randomUUID();
   clients.push({
     id,
     view: createBrowserView(id),
@@ -44,13 +45,17 @@ const addClient = () => {
 
 const removeClient = (_: IpcMainInvokeEvent, clientId: string) => {
   const index = clients.findIndex((client) => client.id === clientId);
+  if (index === -1) return;
+
   const client = clients[index];
   const panel = playfield.panels.find((panel) => panel.clientId === clientId);
+  if (panel) panel.clientId = undefined;
 
-  if (client?.view && panel) {
-    panel.clientId = undefined;
+  if (client.view) {
     win?.removeBrowserView(client.view);
+    client.view.webContents.close();
   }
+  client.window?.destroy();
   clients.splice(index, 1);
 
   pushClientsUpdate();
@@ -183,12 +188,7 @@ const toggleMuted = (_: IpcMainInvokeEvent, clientId: string) => {
 };
 
 export const registerClientHandlers = () => {
-  ipcMain.handle('getClients', () =>
-    clients.map((client) => {
-      const {view, ...clientWithoutView} = client;
-      return clientWithoutView;
-    }),
-  );
+  ipcMain.handle('getClients', serializableClients);
   ipcMain.on('reorderClients', reorderClients);
   ipcMain.on('addClient', addClient);
   ipcMain.on('removeClient', removeClient);

@@ -1,6 +1,6 @@
-import {ipcMain, type IpcMainInvokeEvent} from 'electron';
+import {type IpcMainInvokeEvent, ipcMain} from 'electron';
+import type {Playfield} from '../../preload/types';
 import {win} from '..';
-import {type Playfield} from '../../preload/types';
 import {clients} from '../clients';
 import {db} from '../database';
 import {resizePanels} from './resize';

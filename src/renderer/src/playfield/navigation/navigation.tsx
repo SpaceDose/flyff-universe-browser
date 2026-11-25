@@ -1,8 +1,8 @@
 import ChevronDownIcon from '@heroicons/react/24/solid/ChevronDownIcon';
 import ChevronUpIcon from '@heroicons/react/24/solid/ChevronUpIcon';
 import Cog6ToothIcon from '@heroicons/react/24/solid/Cog6ToothIcon';
-import {useContext, type FC, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {type FC, useContext, useState} from 'react';
+import {useNavigate} from 'react-router';
 import {useClients} from '../../provider/clients-provider';
 import {PlayfieldContext} from '../../provider/playfield-provider';
 import {useSettings} from '../../provider/settings-provider';
@@ -30,7 +30,7 @@ export const Navigation: FC = () => {
 
   return (
     <div
-      className='flex w-full flex-col overflow-hidden bg-gray'
+      className='bg-gray flex w-full flex-col overflow-hidden'
       onMouseEnter={() => {
         if (enableOpenOnHover) setShowNavigation(true);
       }}
@@ -40,6 +40,7 @@ export const Navigation: FC = () => {
       style={{height: showNavigation ? navigationHeight : padding}}
     >
       <button
+        type='button'
         onClick={() => {
           if (enableOpenOnHover) {
             setPinnedNavigation(!pinnedNavigation);
@@ -65,7 +66,8 @@ export const Navigation: FC = () => {
           <ClientNavigation clients={clients} playfield={playfield} />
           <div className='ml-auto flex items-center gap-4 pl-1'>
             <button
-              className='rounded-full p-px hover:bg-gray-lighter'
+              type='button'
+              className='hover:bg-gray-lighter rounded-full p-px'
               onClick={() => navigate('/settings/general')}
             >
               <Cog6ToothIcon className='w-5' />

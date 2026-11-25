@@ -1,9 +1,9 @@
 import {
+  createContext,
   type Dispatch,
   type FC,
-  createContext,
-  useState,
   type ReactNode,
+  useState,
 } from 'react';
 
 export interface ConfirmationState {

@@ -1,4 +1,4 @@
-import {type ClassNameValue} from 'tailwind-merge';
+import type {ClassNameValue} from 'tailwind-merge';
 
 export const panelColors: ClassNameValue[] = [
   'bg-blue-lighter',
@@ -12,4 +12,11 @@ export const hoverPanelColors: ClassNameValue[] = [
   'hover:bg-blue-light',
   'hover:bg-blue',
   'hover:bg-blue-dark',
+];
+
+export const transparentPanelColors: ClassNameValue[] = [
+  'bg-blue-lighter/75',
+  'bg-blue-light/75',
+  'bg-blue/75',
+  'bg-blue-dark/75',
 ];

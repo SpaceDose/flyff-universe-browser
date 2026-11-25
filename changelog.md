@@ -1,3 +1,9 @@
+### v0.2.2
+
+-   Fix client hotkeys only being forwarded once and then getting stuck in the target client.
+
+---
+
 ### v0.2.1
 
 -   Clients can now have hotkeys (Settings → Clients). A hotkey is always sent to its client, even while another client is focused. Hotkey forwarding can be turned off under General, or with a toggle hotkey you can set there.

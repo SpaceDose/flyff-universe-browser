@@ -68,15 +68,11 @@ const isValidHotkey = (hotkey: string) => {
   );
 };
 
-// Remembers which client received a forwarded keyDown, so the matching keyUp goes
-// there too, even if a modifier was released first and the combo no longer matches.
-const forwardedKeys = new Map<string, string>();
-
-const sendKey = (
-  targetId: string,
-  type: 'keyDown' | 'keyUp',
-  input: Electron.Input,
-) => {
+// Sends a complete key press (keyDown, char, keyUp) to the target client.
+// We can't forward the source's keyUp instead: once a keyDown is prevented in
+// 'before-input-event', Chromium suppresses the following keyUp of that key, so
+// it never reaches us and the key would stay pressed in the target client.
+const sendKeyPress = (targetId: string, input: Electron.Input) => {
   const target = clients.find((c) => c.id === targetId);
   const keyCode = codeToKeyCode(input.code);
   if (!target?.view || target.view.webContents.isDestroyed() || !keyCode) {
@@ -88,20 +84,16 @@ const sendKey = (
   if (input.control) modifiers.push('control');
   if (input.alt) modifiers.push('alt');
   if (input.meta) modifiers.push('meta');
-  if (input.isAutoRepeat) modifiers.push('isautorepeat');
 
   const {webContents} = target.view;
-  webContents.sendInputEvent({type, keyCode, modifiers});
+  webContents.sendInputEvent({type: 'keyDown', keyCode, modifiers});
 
   // A real key press also produces a 'char' event for printable characters.
-  if (
-    type === 'keyDown' &&
-    input.key.length === 1 &&
-    !input.control &&
-    !input.meta
-  ) {
+  if (input.key.length === 1 && !input.control && !input.meta) {
     webContents.sendInputEvent({type: 'char', keyCode: input.key, modifiers});
   }
+
+  webContents.sendInputEvent({type: 'keyUp', keyCode, modifiers});
 };
 
 // Called from every client's 'before-input-event'. Returns true if the input was
@@ -111,14 +103,6 @@ export const forwardHotkey = (
   sourceId: string,
   input: Electron.Input,
 ): boolean => {
-  if (input.type === 'keyUp') {
-    const targetId = forwardedKeys.get(input.code);
-    if (!targetId || targetId === sourceId) return false;
-    forwardedKeys.delete(input.code);
-    sendKey(targetId, 'keyUp', input);
-    return true;
-  }
-
   if (input.type !== 'keyDown') return false;
 
   const hotkey = hotkeyFromInput(input);
@@ -135,8 +119,7 @@ export const forwardHotkey = (
   const target = clients.find((c) => c.hotkeys?.includes(hotkey));
   if (!target || target.id === sourceId) return false;
 
-  forwardedKeys.set(input.code, target.id);
-  sendKey(target.id, 'keyDown', input);
+  sendKeyPress(target.id, input);
   return true;
 };
 

@@ -24,10 +24,14 @@ export interface API {
   closeWindow: (clientId: string) => void;
   renameClient: (clientId: string, name: string) => void;
   toggleMuted: (clientId: string) => void;
+  addHotkey: (clientId: string, hotkey: string) => void;
+  removeHotkey: (clientId: string, hotkey: string) => void;
+  setToggleHotkey: (hotkey?: string) => void;
 
   // settings
   getSettings: () => Promise<Settings>;
   setSettings: (settings: Settings) => void;
+  isUnlimitedFpsActive: () => Promise<boolean>;
   hideAllViews: () => void;
   showAllViews: () => void;
 

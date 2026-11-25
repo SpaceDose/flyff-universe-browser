@@ -46,6 +46,8 @@ export type Client = {
   view?: BrowserView;
   isOpenInNewWindow?: boolean;
   isMuted?: boolean;
+  // Keys pressed in any other client are forwarded to this one, e.g. "Shift+Digit2".
+  hotkeys?: string[];
   window?: BrowserWindow;
 };
 
@@ -54,4 +56,8 @@ export type Settings = {
   openNavigationOnHover: boolean;
   // Only read at startup, since Chromium switches can't change at runtime.
   unlimitedFps?: boolean;
+  // Undefined counts as enabled.
+  hotkeysEnabled?: boolean;
+  // Pressed in any client, turns hotkeysEnabled on/off.
+  toggleHotkey?: string;
 };

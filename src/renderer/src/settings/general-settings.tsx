@@ -1,4 +1,5 @@
 import type {FC} from 'react';
+import {HotkeyChip, HotkeyRecorder} from '../components/hotkey';
 import {useSettings} from '../provider/settings-provider';
 import {SettingsPage} from './settings-page';
 import {Switch} from './switch';
@@ -49,6 +50,38 @@ export const GeneralSettings: FC = () => {
             })
           }
         />,
+        <Switch
+          key={3}
+          label='Client hotkeys'
+          description='Forward the hotkeys configured for a client to that client, no matter which client is focused. Disable this e.g. while chatting.'
+          defaultChecked={settings?.hotkeysEnabled !== false}
+          onChange={(e) =>
+            window.api.setSettings({
+              ...settings,
+              hotkeysEnabled: e.target.checked,
+            })
+          }
+        />,
+        <div key={4} className='flex items-center justify-between gap-6'>
+          <div>
+            <p className='select-none'>Toggle client hotkeys</p>
+            <p className='text-sm text-white/50 select-none'>
+              A key that turns client hotkeys on or off while playing, e.g.
+              before you start chatting. Works in every client.
+            </p>
+          </div>
+          {settings.toggleHotkey ? (
+            <HotkeyChip
+              hotkey={settings.toggleHotkey}
+              onRemove={() => window.api.setToggleHotkey(undefined)}
+            />
+          ) : (
+            <HotkeyRecorder
+              label='Set hotkey'
+              onRecord={(hotkey) => window.api.setToggleHotkey(hotkey)}
+            />
+          )}
+        </div>,
       ]}
     />
   );

@@ -11,7 +11,7 @@ export const ClientSettings: FC = () => {
   return (
     <SettingsPage
       title='Clients'
-      description='Here you can control the display name, order and much more of your clients.'
+      description='Here you can control the display name, order and much more of your clients. Hotkeys of a client are forwarded to it, even if another client is focused.'
       options={[<ClientList key={0} />]}
     />
   );

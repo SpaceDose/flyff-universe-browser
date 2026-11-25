@@ -11,6 +11,7 @@ import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
 import type {FC} from 'react';
 import {useConfirm} from '../../components/confirmation-dialog/useConfirm';
 import {useClients} from '../../provider/clients-provider';
+import {ClientHotkeys} from './client-hotkeys';
 
 export const ClientList: FC = () => {
   const {clients, setClients} = useClients();
@@ -38,23 +39,26 @@ export const ClientList: FC = () => {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className='group border-blue-lighter bg-gray-light mb-2 flex flex-col gap-2 rounded-sm border-l-2 p-2 shadow'
+                    className='group border-blue-lighter bg-gray-light mb-3 flex flex-col rounded-sm border-l-2 p-3 shadow'
                   >
-                    <Bars3Icon className='w-4 shrink-0 self-end' />
-                    <div className='flex grow flex-col justify-between px-1'>
-                      <input
-                        type='text'
-                        defaultValue={client.name}
-                        placeholder='Unnamed'
-                        className='focus:border-gray focus:bg-gray-lighter group-hover:bg-gray-lighter rounded-sm border border-transparent bg-transparent p-1 outline-hidden'
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') e.currentTarget.blur();
-                        }}
-                        onBlur={(e) =>
-                          window.api.renameClient(client.id, e.target.value)
-                        }
-                      />
-                      <div className='flex gap-4 self-end p-2'>
+                    <div className='flex grow flex-col gap-4'>
+                      <div className='flex items-center gap-3'>
+                        <input
+                          type='text'
+                          defaultValue={client.name}
+                          placeholder='Unnamed'
+                          className='focus:border-gray focus:bg-gray-lighter group-hover:bg-gray-lighter min-w-0 grow rounded-sm border border-transparent bg-transparent px-1 py-1 font-semibold outline-hidden'
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur();
+                          }}
+                          onBlur={(e) =>
+                            window.api.renameClient(client.id, e.target.value)
+                          }
+                        />
+                        <Bars3Icon className='w-4 shrink-0 opacity-50' />
+                      </div>
+                      <ClientHotkeys client={client} />
+                      <div className='flex justify-end gap-4 border-t border-white/10 px-1.5 pt-3'>
                         <button
                           type='button'
                           onClick={() => window.api.toggleMuted(client.id)}

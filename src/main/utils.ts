@@ -1,6 +1,7 @@
 import {BrowserView, session} from 'electron';
 import {win} from '.';
 import {clients, pushClientsUpdate} from './clients';
+import {forwardHotkey} from './hotkeys';
 import {playfield, pushPlayfieldUpdate} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
 import {settings} from './settings';
@@ -36,7 +37,13 @@ export const createBrowserView: (id: string, isMuted?: boolean) => BrowserView =
       },
     });
     view.webContents.loadURL(flyffUniverseURL);
-    view.webContents.on('before-input-event', keyboardShortcuts);
+    view.webContents.on('before-input-event', (event, input) => {
+      if (forwardHotkey(id, input)) {
+        event.preventDefault();
+        return;
+      }
+      keyboardShortcuts(event, input);
+    });
 
     view.webContents.addListener('cursor-changed', async () => {
       // Focus the BrowserView on mouse enter.

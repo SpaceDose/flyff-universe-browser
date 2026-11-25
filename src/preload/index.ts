@@ -38,6 +38,11 @@ const api: API = {
   renameClient: (clientId, name) =>
     ipcRenderer.send('renameClient', clientId, name),
   toggleMuted: (clientId) => ipcRenderer.send('toggleMuted', clientId),
+  addHotkey: (clientId, hotkey) =>
+    ipcRenderer.send('addHotkey', clientId, hotkey),
+  removeHotkey: (clientId, hotkey) =>
+    ipcRenderer.send('removeHotkey', clientId, hotkey),
+  setToggleHotkey: (hotkey) => ipcRenderer.send('setToggleHotkey', hotkey),
 
   hideAllViews: () => ipcRenderer.send('hideAllViews'),
   showAllViews: () => ipcRenderer.send('showAllViews'),
@@ -45,6 +50,7 @@ const api: API = {
   // user-settings
   getSettings: () => ipcRenderer.invoke('getSettings'),
   setSettings: (settings) => ipcRenderer.send('setSettings', settings),
+  isUnlimitedFpsActive: () => ipcRenderer.invoke('isUnlimitedFpsActive'),
 
   // update frontend
   pullPlayfieldUpdate: () => ipcRenderer.invoke('pullPlayfieldUpdate'),

@@ -69,6 +69,12 @@ export const schema: Schema<Profile> = {
       unlimitedFps: {
         type: 'boolean',
       },
+      hotkeysEnabled: {
+        type: 'boolean',
+      },
+      toggleHotkey: {
+        type: 'string',
+      },
     },
   },
   clients: {
@@ -87,6 +93,12 @@ export const schema: Schema<Profile> = {
         },
         isMuted: {
           type: 'boolean',
+        },
+        hotkeys: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
         },
       },
     },

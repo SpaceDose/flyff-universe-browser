@@ -3,9 +3,10 @@ import {electronApp, is, optimizer} from '@electron-toolkit/utils';
 import {app, BrowserWindow, shell} from 'electron';
 import {clients, pushClientsUpdate, registerClientHandlers} from './clients';
 import {db, registerDatabaseHandlers} from './database';
+import {registerHotkeyHandlers} from './hotkeys';
 import {registerPanelHandlers} from './playfield/playfield';
 import {resizePanels} from './playfield/resize';
-import {registerSettingsHandlers, settings} from './settings';
+import {registerSettingsHandlers, unlimitedFpsActive} from './settings';
 import {registerUpdateHandlers, update} from './update';
 import {keyboardShortcuts, loadSavedPanels} from './utils';
 
@@ -14,7 +15,7 @@ export let win: BrowserWindow | null = null;
 // Chromium caps rendering at the monitor's refresh rate via VSync. These switches
 // are process-wide and only take effect before the app is ready, so changing the
 // setting requires a restart.
-if (settings.unlimitedFps) {
+if (unlimitedFpsActive) {
   app.commandLine.appendSwitch('disable-frame-rate-limit');
   app.commandLine.appendSwitch('disable-gpu-vsync');
 }
@@ -85,6 +86,7 @@ function createWindow(): void {
   registerPanelHandlers();
   registerClientHandlers();
   registerSettingsHandlers();
+  registerHotkeyHandlers();
 }
 
 app.whenReady().then(() => {

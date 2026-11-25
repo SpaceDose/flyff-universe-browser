@@ -9,6 +9,7 @@ import {useSettings} from '../../provider/settings-provider';
 import {ClientNavigation} from './client-navigation/client-navigation';
 import {NavigationDivider} from './navigation-divider';
 import {PlayfieldControl} from './playfield-control';
+import {StatusIndicator} from './status-indicator';
 import {UpdateButton} from './update-button';
 
 export const Navigation: FC = () => {
@@ -65,6 +66,7 @@ export const Navigation: FC = () => {
           <NavigationDivider />
           <ClientNavigation clients={clients} playfield={playfield} />
           <div className='ml-auto flex items-center gap-4 pl-1'>
+            <StatusIndicator />
             <button
               type='button'
               className='hover:bg-gray-lighter rounded-full p-px'

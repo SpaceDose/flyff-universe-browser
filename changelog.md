@@ -1,11 +1,16 @@
+### v0.2.1
+
+-   Clients can now have hotkeys (Settings → Clients). A hotkey is always sent to its client, even while another client is focused. Hotkey forwarding can be turned off under General, or with a toggle hotkey you can set there.
+-   The client navigation now shows whether hotkey forwarding is on (click it to toggle) and whether Unlimited FPS is active (including when a restart is pending).
+-   New experimental setting "Unlimited FPS" under General tries to remove the frame rate cap for all clients. It may have no effect depending on your system and requires an app restart.
+-   Fix a crash when opening a client in a panel after closing its external window.
+
+---
+
 ### v0.2.0
 
 -   Updated Electron from v29 to v45, which brings a much newer Chromium engine and the latest security fixes.
 -   Fix deleted clients sometimes continuing to run (and play sound) in the background.
--   Fix a crash when opening a client in a panel after closing its external window.
--   New experimental setting "Unlimited FPS" under General tries to remove the frame rate cap for all clients. It may have no effect depending on your system and requires an app restart.
--   Clients can now have hotkeys (Settings → Clients). A hotkey is always sent to its client, even while another client is focused. Hotkey forwarding can be turned off under General, or with a toggle hotkey you can set there.
--   The client navigation now shows whether hotkey forwarding is on (click it to toggle) and whether Unlimited FPS is active (including when a restart is pending).
 -   Releases now also include Linux builds (AppImage and deb), and the macOS build runs natively on both Intel and Apple Silicon.
 
 ---
